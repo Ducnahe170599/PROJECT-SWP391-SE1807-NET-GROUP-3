@@ -139,41 +139,91 @@
             <h1>Add New Subject</h1>
             <div id="Overview" class="tab-content active">
                 <!-- Content tab Overview -->
-                <form action="new-subject" method="POST" enctype="multipart/form-data">
-                    <label for="subjectName">Subject Name</label>
-                    <input type="text" id="subjectName" name="subjectName" placeholder="Enter the subject name">
+                <form action="new-subject" method="post">
+                    <label for="subjectName">Subject Name:</label><br>
+                    <input type="text" id="subjectName" name="subjectName" placeholder="Enter the subject name"><br><br>
 
                     <label for="category">Category</label>
                     <select id="category" name="categoryId">
                         <c:forEach items="${listca}" var="i">
                             <option value="${i.id}">${i.name}</option>
                         </c:forEach>
-                    </select>
+                    </select><br><br>
 
                     <label for="package">Package</label>
                     <select id="package" name="packageId">
                         <c:forEach items="${listp}" var="i">
                             <option value="${i.id}">${i.name}</option>
                         </c:forEach>
-                    </select>
+                    </select><br><br>
 
-                    <label for="userId">Owner</label>
-                    <input type="text" id="userId" name="userId" placeholder="Enter the your name">
+                    <label for="userId">User ID:</label><br>
+                    <!--<input type="number" id="userId" name="userId" required><br><br>-->
+                    <select id="userId" name="userId">
+                        <c:forEach items="${listu}" var="i">
+                            <option value="${i.id}">${i.username}</option>
+                        </c:forEach>
+                    </select><br><br>
 
-                    <label for="image">Image</label>
-                    <input type="file" id="image" name="image" class="form-control" placeholder="Upload subject image">
+                    <label for="ratingId">Rating ID:</label><br>
+                    <!--                    <input type="number" id="ratingId" name="ratingId" required><br><br>-->
+                    <select id="rating" name="ratingId">
+                        <c:forEach items="${listr}" var="i">
+                            <option value="${i.id}">${i.rating}</option>
+                        </c:forEach>
+                    </select><br><br>
 
-                    <label for="date">Created At</label>
-                    <input type="date" id="date" name="date">
+                    <label for="image">Image URL:</label><br>
+                    <input type="text" id="image" name="image"><br><br>
 
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" placeholder="Enter a brief description"></textarea>
+                    <label for="createdAt">Created At:</label><br>
+                    <input type="date" id="createdAt" name="createdAt"><br><br>
 
-                    <button type="submit">Submit</button>
+                    <label for="description">Description:</label><br>
+                    <textarea id="description" name="description" placeholder="Enter a brief description"></textarea><br><br>
+
+                    <button type="submit">Add Subject</button>
                     <button type="button" onclick="history.back()">Back</button>
                 </form>
+
             </div>
         </div>
     </body>
 
 </html>
+
+
+
+<!--<form action="new-subject" method="POST" enctype="multipart/form-data">
+                    <label for="subjectName">Subject Name</label>
+                    <input type="text" id="subjectName" name="subjectName" placeholder="Enter the subject name">
+
+                    <label for="category">Category</label>
+                    <select id="category" name="categoryId">
+<c:forEach items="${listca}" var="i">
+    <option value="${i.id}">${i.name}</option>
+</c:forEach>
+</select>
+
+<label for="package">Package</label>
+<select id="package" name="packageId">
+<c:forEach items="${listp}" var="i">
+    <option value="${i.id}">${i.name}</option>
+</c:forEach>
+</select>
+
+<label for="userId">Owner</label>
+<input type="text" id="userId" name="userId" placeholder="Enter the your name">
+
+<label for="image">Image</label>
+<input type="file" id="image" name="image" class="form-control" placeholder="Upload subject image">
+
+<label for="date">Created At</label>
+<input type="date" id="date" name="date">
+
+<label for="description">Description</label>
+<textarea id="description" name="description" placeholder="Enter a brief description"></textarea>
+
+<button type="submit">Submit</button>
+<button type="button" onclick="history.back()">Back</button>
+</form>-->

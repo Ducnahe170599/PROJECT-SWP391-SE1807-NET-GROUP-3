@@ -67,6 +67,7 @@ public class SubjectListServlet extends HttpServlet {
         List<Packages> listp = pdao.getAllPackage();
         List<Subject> lists;
 
+        // Search //
         if (txtSearch != null && !txtSearch.isEmpty()) {
             List<Subject> searchByName = sdao.searchByName(txtSearch);
             if (searchByName == null || searchByName.isEmpty()) {
@@ -76,6 +77,8 @@ public class SubjectListServlet extends HttpServlet {
         } else {
             lists = sdao.getAllSubject();
         }
+
+     
 
         request.setAttribute("listca", listca);
         request.setAttribute("listp", listp);
@@ -95,7 +98,27 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        CategoryDAO cdao = new CategoryDAO();
+        PackageDAO pdao = new PackageDAO();
+        SubjectDAO sdao = new SubjectDAO();
+
+        List<Category> listca = cdao.getAllCategory();
+        List<Packages> listp = pdao.getAllPackage();
+
+        int cateid = request.getParameter("cateid") == null ? 0 : Integer.parseInt(request.getParameter("cateid"));
+        int packid = request.getParameter("packid") == null ? 0 : Integer.parseInt(request.getParameter("packid"));
+
+        List<Subject> lists = sdao.getSubjectsByCategoryAndPackage(cateid, packid);
+
+        request.setAttribute("listca", listca);
+        request.setAttribute("listp", listp);
+        request.setAttribute("lists", lists);
+        request.setAttribute("cateid", cateid);
+        request.setAttribute("packid", packid);
+
+        request.getRequestDispatcher("subject-list.jsp").forward(request, response);
+
     }
 
     /**
@@ -107,5 +130,12 @@ public class SubjectListServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    public int calculateTotalPage(int listSize, int pageSize) {
+        if (listSize <= 0 || pageSize <= 0) {
+            return 0;
+        }
+        return (int) Math.ceil((double) listSize / pageSize);
+    }
 
 }

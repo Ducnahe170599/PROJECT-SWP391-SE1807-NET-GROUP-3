@@ -41,11 +41,10 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(String name, String description, String image, int lessonId, int packageId, int categoryId, int UserId, int RatingId, Date date) {
+    public Subject(String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
         this.name = name;
         this.description = description;
         this.image = image;
-        this.lessonId = lessonId;
         this.packageId = packageId;
         this.categoryId = categoryId;
         this.UserId = UserId;
@@ -53,17 +52,29 @@ public class Subject {
         this.date = date;
     }
 
-    public Subject(int id, String name, String description, String image, int lessonId, int packageId, int categoryId, int UserId, int RatingId, Date date) {
+    public Subject(int id, String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
-        this.lessonId = lessonId;
         this.packageId = packageId;
         this.categoryId = categoryId;
         this.UserId = UserId;
         this.RatingId = RatingId;
         this.date = date;
+    }
+
+    public Subject(int id, String name, String description, String image, String packageName, String categoryName, String userName, int rating, Date date, int numberOfLessons) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.packageName = packageName;
+        this.categoryName = categoryName;
+        this.userName = userName;
+        this.rating = rating;
+        this.date = date;
+        this.numberOfLessons = numberOfLessons;
     }
 
     public Subject(int id, String name, String description, String image, String packageName, String categoryName, String userName, int rating, Date date, String lessonName, int numberOfLessons) {

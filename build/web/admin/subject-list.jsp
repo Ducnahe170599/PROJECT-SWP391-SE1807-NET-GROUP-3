@@ -156,21 +156,39 @@
                     <button type="submit">Search</button>
                 </form>
                 <div>
-                    <label for="categoryFilter">Category:</label>
-                    <select class="filterDropdown" id="categoryFilter">
-                        <option value="all">All</option>
-                        <c:forEach items="${listca}" var="c">
-                            <option value="${categoryId}">${c.name}</option>
-                        </c:forEach>
-                    </select>
-                    <label for="packageFilter">Package:</label>
-                    <select class="filterDropdown" id="packageFilter">
-                        <option value="all">All</option>
-                        <c:forEach items="${listp}" var="p">
-                            <option value="${packageId}">${p.name}</option>
-                        </c:forEach>
-                    </select>
-                    <button type="submit">Filter</button>
+                    <form action="subject-list" method="POST">
+                        <label for="categoryFilter">Category:</label>
+                        <select name="cateid"  class="form-control">
+                            <option value="0">All</option>
+                            <c:forEach items="${listca}" var="c">
+                                <c:choose>
+                                    <c:when test="${c.id == cateid}">
+                                        <option value="${c.id}" selected>${c.name}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${c.id}">${c.name}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+
+                        <label for="packageFilter">Package:</label>
+                        <select name="packid"  class="form-control">
+                            <option value="0">All</option>
+                            <c:forEach items="${listp}" var="p">
+                                <c:choose>
+                                    <c:when test="${p.id == packid}">
+                                        <option value="${p.id}" selected>${p.name}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${p.id}">${p.name}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+
+                        <button type="submit">Filter</button>
+                    </form>
                 </div>            
             </div>
             <div class="add-new">
@@ -183,11 +201,11 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Description</th>
-                        <th>Number of Lessons</th>
                         <th>Package</th>
                         <th>Owner</th>
-                        <th>Rating</th>
                         <th>Image</th>
+                        <th>Rating</th>
+                        <th>Number of Lessons</th>
                         <th>Create At</th>
                         <th>Action</th>
                     </tr>
@@ -199,15 +217,15 @@
                             <td>${s.name}</td>
                             <td>${s.categoryName}</td>
                             <td>${s.description}</td>
-                            <td>${s.numberOfLessons}</td>
                             <td>${s.packageName}</td>
                             <td>${s.userName}</td>
-                            <td>${s.rating}</td>
                             <td>${s.image}</td>
+                            <td>${s.rating}</td>
+                            <td>${s.numberOfLessons}</td>
                             <td>${s.date}</td>
                             <td>
-                                <a href="subject-details.html?id=1">Edit</a>
-                                <a href="subject-details.html?id=1">Delete</a>
+                                <a href="update-subject">Edit</a>
+                                <a href="#" onclick="doDeletebySubject('${s.id}')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -225,5 +243,14 @@
                 <a href="#">&raquo;</a>
             </div>
         </div>
+
+        <script type="text/javascript">
+            function doDeletebySubject(id) {
+                if (confirm("Are you sure to delete subject with id =" + id)) {
+                    window.location = "delete-subject?id=" + id;
+                }
+            }
+        </script>
     </body>
+
 </html>

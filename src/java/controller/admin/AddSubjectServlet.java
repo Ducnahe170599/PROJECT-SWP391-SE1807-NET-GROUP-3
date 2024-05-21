@@ -2,25 +2,22 @@ package controller.admin;
 
 import dal.CategoryDAO;
 import dal.PackageDAO;
+import dal.RatingDAO;
 import dal.SubjectDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Category;
 import model.Packages;
+import model.Ratings;
 import model.Subject;
+import model.User;
 
 /**
  *
@@ -64,57 +61,61 @@ public class AddSubjectServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //processRequest(request, response);
         CategoryDAO cdao = new CategoryDAO();
         PackageDAO pdao = new PackageDAO();
+        SubjectDAO sdao = new SubjectDAO();
+        RatingDAO rdao = new RatingDAO();
+        UserDAO udao = new UserDAO();
         List<Category> listca = cdao.getAllCategory();
         List<Packages> listp = pdao.getAllPackage();
+        List<Subject> lists = sdao.getAllSubject();
+        List<Ratings> listr = rdao.getAllRating();
+        List<User> listu = udao.getAllUser();
 
         request.setAttribute("listca", listca);
         request.setAttribute("listp", listp);
+        request.setAttribute("lists", lists);
+        request.setAttribute("listr", listr);
+        request.setAttribute("listu", listu);
         request.getRequestDispatcher("new-subject.jsp").forward(request, response);
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String subjectName = request.getParameter("subjectName");
-        String description = request.getParameter("description");
-        String lesson = request.getParameter("lessonId");
-        String packages = request.getParameter("packageId");
-        String category = request.getParameter("categoryId");
-        String user = request.getParameter("userId");
-        String rating = request.getParameter("ratingId");
-        String date = request.getParameter("date");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //processRequest(request, response);
 
-        SubjectDAO sdao = new SubjectDAO();
         try {
-            int lessonId = Integer.parseInt(lesson);
-            int packageId = Integer.parseInt(packages);
-            int categoryId = Integer.parseInt(category);
-            int userId = Integer.parseInt(user);
-            int ratingId = Integer.parseInt(rating);
+            String subjectName = request.getParameter("subjectName");
+            String description = request.getParameter("description");
+            String image = request.getParameter("image");
+//            int lessonId = Integer.parseInt(request.getParameter("lessonId"));
+            int packageId = Integer.parseInt(request.getParameter("packageId"));
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            int ratingId = Integer.parseInt(request.getParameter("ratingId"));
+            Date createdAt = Date.valueOf(request.getParameter("createdAt"));
 
-            // Parse the date string to a Date object
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date createdAt = sdf.parse(date);
+            Subject subject = new Subject(subjectName, description, image, packageId, categoryId, userId, ratingId, createdAt);
 
-            // Handle file upload
-            Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
-            String uploadPath = getServletContext().getRealPath("/") + "uploads" + File.separator + fileName;
-            File file = new File(uploadPath);
-            file.getParentFile().mkdirs(); // Create directories if not exist
-            filePart.write(uploadPath);
-
-            String images = "uploads/" + fileName;
-
-            Subject subject = new Subject(subjectName, description, images, lessonId, packageId, categoryId, userId, ratingId, createdAt);
-//            sdao.insert(subject);
-
-            response.sendRedirect("subject-list");
-        } catch (IOException | NumberFormatException | ParseException e) {
+            SubjectDAO subjectDAO = new SubjectDAO();
+            subjectDAO.insert(subject);
+        } catch (Exception e) {
         }
+
         response.sendRedirect("subject-list");
+
     }
 
     /**
