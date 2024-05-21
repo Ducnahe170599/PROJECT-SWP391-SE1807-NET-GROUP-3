@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<form class="form-horizontal" action="quizquestion" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>ADD</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="product_id">Question ID</label>  
+  <div class="col-md-4">
+  <input id="product_id" name="QuestionID" placeholder="Question ID" class="form-control input-md" required="" type="text"  >
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="product_name">Quiz Detail</label>  
+  <div class="col-md-4">
+  <input id="product_name" name="QuizDetail" placeholder="Quiz Detail" class="form-control input-md" required="" type="text"  >
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="product_name_fr">Quiz ID</label>  
+  <div class="col-md-4">
+  <input id="product_name_fr" name="QuizID" placeholder="Quiz ID" class="form-control input-md" required="" type="text">
+    
+  </div>
+</div>
+    
+ <!-- File Button --> 
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton">Add</label>
+  <div class="col-md-4">
+ <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Add"/>  </div>
+  </div>
+
+</fieldset>
+      <table border="1px solid black">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Dob</th>
+                </tr>
+            <c:forEach begin="1" end="5" var="x">
+                <tr>
+                    <td>1</td>
+                    <td>Fu hoa lac</td>
+                    <td>Male</td>
+                    <td>20-02-2020</td>
+                    <td>
+                        <a href="#">update</a>
+                        <a href="#">delete</a>
+                    </td>
+                </tr>
+            </c:forEach>
+
+        </table>
+</form>
