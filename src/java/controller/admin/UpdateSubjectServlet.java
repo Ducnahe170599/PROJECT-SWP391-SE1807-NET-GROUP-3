@@ -1,11 +1,22 @@
 package controller.admin;
 
+import dal.CategoryDAO;
+import dal.PackageDAO;
+import dal.RatingDAO;
+import dal.SubjectDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Category;
+import model.Packages;
+import model.Ratings;
+import model.Subject;
+import model.User;
 
 /**
  *
@@ -53,6 +64,16 @@ public class UpdateSubjectServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         
+         CategoryDAO cdao = new CategoryDAO();
+        PackageDAO pdao = new PackageDAO();
+        SubjectDAO sdao = new SubjectDAO();
+        RatingDAO rdao = new RatingDAO();
+        UserDAO udao = new UserDAO();
+        List<Category> listca = cdao.getAllCategory();
+        List<Packages> listp = pdao.getAllPackage();
+        List<Subject> lists = sdao.getAllSubject();
+        List<Ratings> listr = rdao.getAllRating();
+        List<User> listu = udao.getAllUser();
         
         request.getRequestDispatcher("update-subject.jsp").forward(request, response);
     }
