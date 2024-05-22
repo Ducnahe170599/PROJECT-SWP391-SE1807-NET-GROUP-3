@@ -4,65 +4,40 @@
  */
 package fpt.DAO;
 
-import java.sql.Connection;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.List;
 import fpt_model.FPT_UserEnoll;
-
-
+import fpt_model.FPT_Roles;
+import fpt_model.FPT_UserEnoll;
+import fpt_model.FPT_User;
 
 
 /**
  *
  * @author nguye
  */
+public class DAO extends DBContext{
 
-public class DAO {
-
-    public void getAllEnrollments() throws SQLException {
-        String sql = "SELECT * FROM Enrollment"; 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
+     public ArrayList<UserEnoll> getAllUserEnoll() {
+        ArrayList<UserEnoll> list = new ArrayList<>();
         try {
-            connection = getConnection(); 
-            preparedStatement = connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-  
-                int enrollID = resultSet.getInt("enrollID");
-
+            String sql = "select *from products";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new UserEnoll(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getFloat(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getInt(7)));
             }
-        } catch (SQLException e) {
-            throw e; 
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-               
-            }
-            closeConnection(connection);
+        } catch (Exception e) {
         }
-    }
-
-    private Connection getConnection() throws SQLException {
-        
-    }
-
-    private void closeConnection(Connection connection) throws SQLException {
-        
+        return list;
     }
 }
-
-                  
-
-
