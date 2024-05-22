@@ -11,11 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.util.List;
+import model.Subject;
 import model.Category;
 import model.Packages;
 import model.Ratings;
-import model.Subject;
 import model.User;
 
 /**
@@ -41,7 +42,7 @@ public class UpdateSubjectServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateSubjectServlet</title>");            
+            out.println("<title>Servlet UpdateSubjectServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateSubjectServlet at " + request.getContextPath() + "</h1>");
@@ -62,19 +63,21 @@ public class UpdateSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        
-         CategoryDAO cdao = new CategoryDAO();
-        PackageDAO pdao = new PackageDAO();
+        String id_raw = request.getParameter("id");  // Đảm bảo tham số này đúng là 'id'
+
         SubjectDAO sdao = new SubjectDAO();
-        RatingDAO rdao = new RatingDAO();
-        UserDAO udao = new UserDAO();
-        List<Category> listca = cdao.getAllCategory();
-        List<Packages> listp = pdao.getAllPackage();
-        List<Subject> lists = sdao.getAllSubject();
-        List<Ratings> listr = rdao.getAllRating();
-        List<User> listu = udao.getAllUser();
-        
+        CategoryDAO cdao = new CategoryDAO();
+        PackageDAO pdao = new PackageDAO();
+        if (id_raw != null) {
+            int id = Integer.parseInt(id_raw);
+            Subject subject = sdao.getSubjectById(id);
+            List<Category> listca = cdao.getAllCategory();
+            List<Packages> listp = pdao.getAllPackage();
+
+            request.setAttribute("listca", listca);
+            request.setAttribute("subject", subject);
+            request.setAttribute("listp", listp);
+        }
         request.getRequestDispatcher("update-subject.jsp").forward(request, response);
     }
 
@@ -89,7 +92,37 @@ public class UpdateSubjectServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Lấy dữ liệu từ form
+        String id_raw = request.getParameter("id");
+        String name = request.getParameter("name");
+        String category = request.getParameter("categoryId");
+        String packages = request.getParameter("packageId");
+        String userName = request.getParameter("userId");
+        String rating = request.getParameter("ratingId");
+        String image = request.getParameter("image");
+        String status = request.getParameter("status");
+        String createdAt = request.getParameter("date");
+        String description = request.getParameter("description");
+
+        SubjectDAO sdao = new SubjectDAO();
+
+        try {
+            // Chuyển đổi các giá trị cần thiết
+            int id = Integer.parseInt(id_raw);
+            int categoryId = Integer.parseInt(category);
+            int packageId = Integer.parseInt(packages);
+            int ratingId = Integer.parseInt(rating);
+            int userId = Integer.parseInt(userName);
+            Date date = Date.valueOf(createdAt);
+            boolean statusValue = Boolean.parseBoolean(status);
+
+            Subject subject = new Subject(id, name, description, image, statusValue, packageId, categoryId, userId, ratingId, date);
+            sdao.updateSubject(subject);
+        } catch (Exception e) {
+            e.printStackTrace();  // In ra stack trace để debug
+        }
+
+        response.sendRedirect("subject-list");
     }
 
     /**

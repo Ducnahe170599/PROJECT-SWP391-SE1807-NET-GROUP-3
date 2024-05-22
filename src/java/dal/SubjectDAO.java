@@ -375,28 +375,112 @@ public class SubjectDAO extends DBContext {
         return null;
     }
 
-    public static void main(String args[]) {
-        // TODO code application logic here
-        SubjectDAO sdao = new SubjectDAO();
-//        for (Subject subject : list) {
-//            System.out.println(subject);
-//        }
-//        int countSearch = sdao.countSearch("s");
-//        System.out.println(countSearch);
-        // Insert a new subject
-//        Subject subject = new Subject("chinhpx", "good", "image2", 2, 1, 2, 2, Date.valueOf("2024-05-19"));
-//        sdao.insert(subject);
+    public Subject getSubjectById(int id) {
 
-//        int cate = sdao.getPackageIdByName("Basic Package");
-//        System.out.println(cate);
-//        List<Subject> lists = sdao.getSubjectsByCategoryAndPackage(3, 3);
-//        for (Subject list : lists) {
-//            System.out.println(list);
-//        }
-//        int totalSubject = sdao.getTotalSubject();
-//        System.out.println(totalSubject);
-//          Subject s = sdao.deleteSubject(9);
-//          System.out.println(s);
+        String sql = "SELECT \n"
+                + "    Subject.SubjectID, \n"
+                + "    Subject.Subject_Name, \n"
+                + "    Subject.Description, \n"
+                + "    Subject.Image,\n"
+                + "    Package.PackageName, \n"
+                + "    Category.Category_Name, \n"
+                + "    [User].UserName, \n"
+                + "    Ratings.Rating, \n"
+                + "    Subject.Created_at,\n"
+                + "    COUNT(Lessons.LessonId) AS NumberOfLessons\n"
+                + "FROM\n"
+                + "    Subject\n"
+                + "LEFT JOIN \n"
+                + "    Lessons ON Subject.SubjectID = Lessons.LessonId\n"
+                + "JOIN \n"
+                + "    Package ON Package.PackageID = Subject.PackageId\n"
+                + "JOIN \n"
+                + "    Category ON Category.CategoryID = Subject.CategoryId\n"
+                + "JOIN \n"
+                + "    [User] ON [User].UserID = Subject.UserId\n"
+                + "JOIN \n"
+                + "    Ratings ON Ratings.RatingID = Subject.RatingID\n"
+                + "WHERE Subject.SubjectID = ?\n"
+                + "GROUP BY \n"
+                + "    Subject.SubjectID, \n"
+                + "    Subject.Subject_Name, \n"
+                + "    Subject.Description, \n"
+                + "    Subject.Image, \n"
+                + "    Package.PackageName, \n"
+                + "    Category.Category_Name, \n"
+                + "    [User].UserName, \n"
+                + "    Ratings.Rating, \n"
+                + "    Subject.Created_at";
+
+        try {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                return new Subject(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getInt(8),
+                        rs.getDate(9),
+                        rs.getInt(10));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public void updateSubject(Subject subject) {
+        String sql = "UPDATE [dbo].[Subject]\n"
+                + "   SET [Subject_Name] = ?,\n"
+                + "       [Description] = ?,\n"
+                + "       [Image] = ?,\n"
+                + "       [Status] = ?,\n"
+                + "       [PackageId] = ?,\n"
+                + "       [CategoryId] = ?,\n"
+                + "       [UserId] = ?,\n"
+                + "       [RatingID] = ?,\n"
+                + "       [Created_at] = ?\n"
+                + " WHERE [SubjectID] = ?";
+
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, subject.getName());
+            pst.setString(2, subject.getDescription());
+            pst.setString(3, subject.getImage());
+            pst.setBoolean(4, subject.isStatus());
+            pst.setInt(5, subject.getPackageId());
+            pst.setInt(6, subject.getCategoryId());
+            pst.setInt(7, subject.getUserId());
+            pst.setInt(8, subject.getRatingId());
+            pst.setDate(9, new java.sql.Date(subject.getDate().getTime()));
+            pst.setInt(10, subject.getId());
+
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String args[]) {
+        SubjectDAO sdao = new SubjectDAO();
+
+        Subject subject = new Subject();
+        subject.setId(1);
+        subject.setName("Physics");
+        subject.setDescription("Physics basics");
+        subject.setImage("image01");
+        subject.setStatus(true);
+        subject.setPackageId(1);
+        subject.setCategoryId(1);
+        subject.setUserId(1);
+        subject.setRatingId(2); // Use RatingId setter
+        subject.setDate(Date.valueOf("2024-05-16"));
+
+        sdao.updateSubject(subject);
     }
 
 }

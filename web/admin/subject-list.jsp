@@ -203,6 +203,7 @@
                         <th>Description</th>
                         <th>Package</th>
                         <th>Owner</th>
+                        <th>Status</th>
                         <th>Image</th>
                         <th>Rating</th>
                         <th>Number of Lessons</th>
@@ -219,12 +220,13 @@
                             <td>${s.description}</td>
                             <td>${s.packageName}</td>
                             <td>${s.userName}</td>
+                            <td>${s.status ? 'Published' : 'Unpublished'}</td>
                             <td>${s.image}</td>
                             <td>${s.rating}</td>
                             <td>${s.numberOfLessons}</td>
                             <td>${s.date}</td>
                             <td>
-                                <a href="update-subject">Edit</a>
+                                <a href="update-subject?id=${s.id}">Edit</a>
                                 <a href="#" onclick="doDeletebySubject('${s.id}')">Delete</a>
                             </td>
                         </tr>

@@ -25,6 +25,7 @@ public class Subject {
     private String name;
     private String description;
     private String image;
+    private boolean status;
     private int lessonId;
     private int packageId;
     private int categoryId;
@@ -41,19 +42,34 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
+    public Subject(int id, String name, String description, String image, boolean status, int packageId, int categoryId, int userId, int ratingId, Date date) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
+        this.status = status;
         this.packageId = packageId;
         this.categoryId = categoryId;
-        this.UserId = UserId;
-        this.RatingId = RatingId;
+        this.UserId = userId;
+        this.RatingId = ratingId;
         this.date = date;
     }
 
-    public Subject(int id, String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
+    public Subject(int id, String name, String description, String image, boolean status, String packageName, String categoryName, String userName, int rating, Date date, int numberOfLessons) {
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.status = status;
+        this.packageName = packageName;
+        this.categoryName = categoryName;
+        this.userName = userName;
+        this.rating = rating;
+        this.date = date;
+        this.numberOfLessons = numberOfLessons;
+    }
+
+    public Subject(String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -219,8 +235,17 @@ public class Subject {
         this.RatingId = RatingId;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Subject{" + "id=" + id + ", name=" + name + ", description=" + description + ", image=" + image + ", packageName=" + packageName + ", categoryName=" + categoryName + ", userName=" + userName + ", rating=" + rating + ", date=" + date + ", lessonName=" + lessonName + ", numberOfLessons=" + numberOfLessons + '}';
+        return "Subject{" + "id=" + id + ", name=" + name + ", description=" + description + ", image=" + image + ", status=" + status + ", lessonId=" + lessonId + ", packageId=" + packageId + ", categoryId=" + categoryId + ", UserId=" + UserId + ", RatingId=" + RatingId + ", packageName=" + packageName + ", categoryName=" + categoryName + ", userName=" + userName + ", rating=" + rating + ", date=" + date + ", lessonName=" + lessonName + ", numberOfLessons=" + numberOfLessons + '}';
     }
+
 }
