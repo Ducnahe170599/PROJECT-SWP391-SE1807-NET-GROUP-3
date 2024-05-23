@@ -434,7 +434,7 @@ public class SubjectDAO extends DBContext {
         return null;
     }
 
-    public void updateSubject(Subject subject) {
+    public Subject updateSubject(Subject subject) {
         String sql = "UPDATE [dbo].[Subject]\n"
                 + "   SET [Subject_Name] = ?,\n"
                 + "       [Description] = ?,\n"
@@ -463,24 +463,29 @@ public class SubjectDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void main(String args[]) {
         SubjectDAO sdao = new SubjectDAO();
-
+        
         Subject subject = new Subject();
-        subject.setId(1);
-        subject.setName("Physics");
-        subject.setDescription("Physics basics");
-        subject.setImage("image01");
-        subject.setStatus(true);
-        subject.setPackageId(1);
-        subject.setCategoryId(1);
-        subject.setUserId(1);
-        subject.setRatingId(2); // Use RatingId setter
-        subject.setDate(Date.valueOf("2024-05-16"));
+        subject = sdao.getSubjectById(1);
+        System.out.println(subject);
 
-        sdao.updateSubject(subject);
+//        Subject subject = new Subject();
+//        subject.setId(1);
+//        subject.setName("Physics");
+//        subject.setDescription("Physics basics");
+//        subject.setImage("image01");
+//        subject.setStatus(true);
+//        subject.setPackageId(1);
+//        subject.setCategoryId(1);
+//        subject.setUserId(1);
+//        subject.setRatingId(2); // Use RatingId setter
+//        subject.setDate(Date.valueOf("2024-05-16"));
+//
+//        sdao.updateSubject(subject);
     }
 
 }
