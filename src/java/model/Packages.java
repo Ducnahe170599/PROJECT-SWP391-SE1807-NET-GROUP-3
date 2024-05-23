@@ -13,21 +13,21 @@ public class Packages {
      */
     private int id;
     private String name;
-    private int accessDuration;
-    private BigDecimal price;
-    private BigDecimal salePrice;
     private String description;
+    private double price;
+    private double salePrice;
+    private int duration;
 
     public Packages() {
     }
 
-    public Packages(int id, String name, int accessDuration, BigDecimal price, BigDecimal salePrice, String description) {
+    public Packages(int id, String name, String description, double price, double salePrice, int duration) {
         this.id = id;
         this.name = name;
-        this.accessDuration = accessDuration;
+        this.description = description;
         this.price = price;
         this.salePrice = salePrice;
-        this.description = description;
+        this.duration = duration;
     }
 
     public int getId() {
@@ -46,30 +46,6 @@ public class Packages {
         this.name = name;
     }
 
-    public int getAccessDuration() {
-        return accessDuration;
-    }
-
-    public void setAccessDuration(int accessDuration) {
-        this.accessDuration = accessDuration;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(BigDecimal salePrice) {
-        this.salePrice = salePrice;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -78,9 +54,34 @@ public class Packages {
         this.description = description;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
-        return "Package{" + "id=" + id + ", name=" + name + ", accessDuration=" + accessDuration + ", price=" + price + ", salePrice=" + salePrice + ", description=" + description + '}';
+        return "Packages{" + "id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", salePrice=" + salePrice + ", duration=" + duration + '}';
     }
+
     
 }

@@ -8,14 +8,15 @@ import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.sql.Date;
 import java.util.List;
 import model.Category;
 import model.Packages;
-import model.Ratings;
 import model.Subject;
 import model.User;
 
@@ -23,6 +24,7 @@ import model.User;
  *
  * @author Admin
  */
+@MultipartConfig(maxFileSize = 16177215)
 public class AddSubjectServlet extends HttpServlet {
 
     /**
@@ -71,14 +73,12 @@ public class AddSubjectServlet extends HttpServlet {
         UserDAO udao = new UserDAO();
         List<Category> listca = cdao.getAllCategory();
         List<Packages> listp = pdao.getAllPackage();
-        List<Subject> lists = sdao.getAllSubject();
-        List<Ratings> listr = rdao.getAllRating();
+        List<Subject> lists = sdao.getAllSubjects();
         List<User> listu = udao.getAllUser();
 
         request.setAttribute("listca", listca);
         request.setAttribute("listp", listp);
         request.setAttribute("lists", lists);
-        request.setAttribute("listr", listr);
         request.setAttribute("listu", listu);
         request.getRequestDispatcher("new-subject.jsp").forward(request, response);
     }
@@ -99,23 +99,37 @@ public class AddSubjectServlet extends HttpServlet {
         try {
             String subjectName = request.getParameter("subjectName");
             String description = request.getParameter("description");
-            String image = request.getParameter("image");
-//            int lessonId = Integer.parseInt(request.getParameter("lessonId"));
+            //String image = request.getParameter("image");
+            Part imagePart = request.getPart("image");
+            String fileName = getFileName(imagePart);
             int packageId = Integer.parseInt(request.getParameter("packageId"));
             int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            int ratingId = Integer.parseInt(request.getParameter("ratingId"));
-            Date createdAt = Date.valueOf(request.getParameter("createdAt"));
+            boolean statusValue = Boolean.parseBoolean(request.getParameter("status"));
+            int created_by = Integer.parseInt(request.getParameter("userId"));
+            Date created_at = Date.valueOf(request.getParameter("created_at"));
 
-            Subject subject = new Subject(subjectName, description, image, packageId, categoryId, userId, ratingId, createdAt);
-
+            Subject subject = new Subject(subjectName, description, fileName, statusValue, packageId, categoryId, created_by, created_at);
             SubjectDAO subjectDAO = new SubjectDAO();
             subjectDAO.insert(subject);
+
+            Part filePart = request.getPart("image");
+            String uploadPath = getServletContext().getRealPath("") + "/uploads/" + fileName;
+            filePart.write(uploadPath);
         } catch (Exception e) {
         }
 
         response.sendRedirect("subject-list");
+    }
 
+    private String getFileName(Part part) {
+        String partHeader = part.getHeader("content-disposition");
+        System.out.println("Part Header = " + partHeader);
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.lastIndexOf("=") + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 
     /**

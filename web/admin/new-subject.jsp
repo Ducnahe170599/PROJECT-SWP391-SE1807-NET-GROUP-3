@@ -16,7 +16,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
         <style>
             body {
-                font-family: 'Roboto', sans-serif;
+                box-sizing: border-box;
+                font-family: 'Poppins', 'sans-serif';
                 background-color: #e9ecef;
                 margin: 0;
                 padding: 0;
@@ -139,7 +140,7 @@
             <h1>Add New Subject</h1>
             <div id="Overview" class="tab-content active">
                 <!-- Content tab Overview -->
-                <form action="new-subject" method="post">
+                <form action="new-subject" method="post" enctype = "multipart/form-data">
                     <label for="subjectName">Subject Name:</label><br>
                     <input type="text" id="subjectName" name="subjectName" placeholder="Enter the subject name"><br><br>
 
@@ -157,29 +158,27 @@
                         </c:forEach>
                     </select><br><br>
 
-                    <label for="userId">User ID:</label><br>
-                    <!--<input type="number" id="userId" name="userId" required><br><br>-->
-                    <select id="userId" name="userId">
+                    <label for="package">Status</label>
+                    <select id="package" name="status">
+                        <option value="0" <c:if test="${status == 1}">selected</c:if>>Published</option>
+                        <option value="1" <c:if test="${status == 0}">selected</c:if>>Unpublished</option>
+                        </select><br><br>
+
+                        <label for="userId">Owner</label><br>
+                        <!--<input type="number" id="userId" name="userId" required><br><br>-->
+                        <select id="userId" name="userId">
                         <c:forEach items="${listu}" var="i">
                             <option value="${i.id}">${i.username}</option>
                         </c:forEach>
                     </select><br><br>
 
-                    <label for="ratingId">Rating ID:</label><br>
-                    <!--                    <input type="number" id="ratingId" name="ratingId" required><br><br>-->
-                    <select id="rating" name="ratingId">
-                        <c:forEach items="${listr}" var="i">
-                            <option value="${i.id}">${i.rating}</option>
-                        </c:forEach>
-                    </select><br><br>
+                    <label for="image">Image URL</label><br>
+                    <input type="file" id="image" name="image"><br><br>
 
-                    <label for="image">Image URL:</label><br>
-                    <input type="text" id="image" name="image"><br><br>
+                    <label for="createdAt">Created At</label><br>
+                    <input type="date" id="created_at" name="created_at"><br><br>
 
-                    <label for="createdAt">Created At:</label><br>
-                    <input type="date" id="createdAt" name="createdAt"><br><br>
-
-                    <label for="description">Description:</label><br>
+                    <label for="description">Description</label><br>
                     <textarea id="description" name="description" placeholder="Enter a brief description"></textarea><br><br>
 
                     <button type="submit">Add Subject</button>

@@ -19,13 +19,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Edit-Subject</title>
-        <link rel="stylesheet" href="css/all.min.css" />
-        <link rel="stylesheet" href="css/framework.css" />
-        <link rel="stylesheet" href="css/master.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
         <style>
+            body {
+                box-sizing: border-box;
+                font-family: 'Poppins', 'sans-serif';
+                
+            }
             .page {
                 display: flex;
                 justify-content: center;
@@ -100,43 +102,42 @@
         <div class="page">
             <div class="content">
                 <h1>Edit Subject</h1>
-                <%--<c:set var="p" value="${requestScope.subject}"/>--%>
                 <div class="projects">
-                    <form action="update-subject" method="post" enctype="multipart/form-data">
+                    <form action="update-subject" method="post" enctype = "multipart/form-data">
                         <input type="hidden" readonly name="id" value="${subject.id}">
-                        <input type="hidden" id="userName" name="userId" value="${subject.userId}">
-                        <input type="hidden" id="rating" name="ratingId" value="${subject.ratingId}">
+                        <input type="hidden" id="created_by" name="created_by" value="${subject.created_by}">
+
                         <label for="subjectName">Subject Name</label>
-                        <input type="text" id="name" name="name" value="${subject.name}">
+                        <input type="text" id="name" name="name" value="${subject.name}" required>
 
                         <label for="category">Category</label>
-                        <select name="categoryId">
+                        <select name="categoryId" required>
                             <c:forEach var="c" items="${listca}">
-                                <option <c:if test="${c.id == subject.categoryId}">selected</c:if> value="${c.id}">${c.name}</option> 
+                                <option <c:if test="${c.id == subject.categoryId}">selected</c:if> value="${c.id}">${c.name}</option>
                             </c:forEach>
                         </select>
 
                         <label for="package">Package</label>
-                        <select name="packageId">
+                        <select name="packageId" required>
                             <c:forEach var="p" items="${listp}">
                                 <option <c:if test="${p.id == subject.packageId}">selected</c:if> value="${p.id}">${p.name}</option>
                             </c:forEach>
                         </select>
 
                         <label for="status">Status</label>
-                        <select id="status" name="status">
-                            <option value="true" <c:if test="${subject.status == true}">selected</c:if>>Published</option>
-                            <option value="false" <c:if test="${subject.status == false}">selected</c:if>>Unpublished</option>
+                        <select id="status" name="status" required>
+                            <option value="true" <c:if test="${subject.status}">selected</c:if>>Published</option>
+                            <option value="false" <c:if test="${!subject.status}">selected</c:if>>Unpublished</option>
                             </select>
 
                             <label for="image">Image URL</label>
-                            <input type="text" id="image" name="image" value="${subject.image}">
+                            <input type="file" id="image" name="image" value="${subject.image}">
 
                         <label for="createdAt">Created At:</label>
-                        <input type="date" id="createdAt" name="date" value="${subject.date}">
+                        <input type="date" id="created_at" name="created_at" value="${subject.created_at}" required>
 
                         <label for="description">Description:</label>
-                        <textarea id="description" name="description">${subject.description}</textarea>
+                        <textarea id="description" name="description" required>${subject.description}</textarea>
 
                         <button type="submit">Update Subject</button>
                         <button type="button" onclick="history.back()">Back</button>

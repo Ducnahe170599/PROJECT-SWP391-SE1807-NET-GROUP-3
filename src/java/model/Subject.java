@@ -26,23 +26,19 @@ public class Subject {
     private String description;
     private String image;
     private boolean status;
-    private int lessonId;
     private int packageId;
     private int categoryId;
-    private int UserId;
-    private int RatingId;
-    private String packageName;
-    private String categoryName;
+    private int created_by;
+    private Date created_at;
+    private String category_name;
+    private String package_name;
     private String userName;
-    private int rating;
-    private Date date;
-    private String lessonName;
     private int numberOfLessons;
 
     public Subject() {
     }
 
-    public Subject(int id, String name, String description, String image, boolean status, int packageId, int categoryId, int userId, int ratingId, Date date) {
+    public Subject(int id, String name, String description, String image, boolean status, int packageId, int categoryId, int created_by, Date created_at) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -50,60 +46,35 @@ public class Subject {
         this.status = status;
         this.packageId = packageId;
         this.categoryId = categoryId;
-        this.UserId = userId;
-        this.RatingId = ratingId;
-        this.date = date;
+        this.created_by = created_by;
+        this.created_at = created_at;
     }
 
-    public Subject(int id, String name, String description, String image, boolean status, String packageName, String categoryName, String userName, int rating, Date date, int numberOfLessons) {
+    public Subject(String name, String description, String image, boolean status, int packageId, int categoryId, int created_by, Date created_at) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.status = status;
+        this.packageId = packageId;
+        this.categoryId = categoryId;
+        this.created_by = created_by;
+        this.created_at = created_at;
+    }
+
+
+    public Subject(int id, String name, String description, String image, boolean status, int packageId, int categoryId, int created_by, Date created_at, String category_name, String package_name, String userName, int numberOfLessons) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
         this.status = status;
-        this.packageName = packageName;
-        this.categoryName = categoryName;
-        this.userName = userName;
-        this.rating = rating;
-        this.date = date;
-        this.numberOfLessons = numberOfLessons;
-    }
-
-    public Subject(String name, String description, String image, int packageId, int categoryId, int UserId, int RatingId, Date date) {
-        this.name = name;
-        this.description = description;
-        this.image = image;
         this.packageId = packageId;
         this.categoryId = categoryId;
-        this.UserId = UserId;
-        this.RatingId = RatingId;
-        this.date = date;
-    }
-
-    public Subject(int id, String name, String description, String image, String packageName, String categoryName, String userName, int rating, Date date, int numberOfLessons) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.packageName = packageName;
-        this.categoryName = categoryName;
+        this.created_by = created_by;
+        this.created_at = created_at;
+        this.category_name = category_name;
+        this.package_name = package_name;
         this.userName = userName;
-        this.rating = rating;
-        this.date = date;
-        this.numberOfLessons = numberOfLessons;
-    }
-
-    public Subject(int id, String name, String description, String image, String packageName, String categoryName, String userName, int rating, Date date, String lessonName, int numberOfLessons) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.packageName = packageName;
-        this.categoryName = categoryName;
-        this.userName = userName;
-        this.rating = rating;
-        this.date = date;
-        this.lessonName = lessonName;
         this.numberOfLessons = numberOfLessons;
     }
 
@@ -139,68 +110,12 @@ public class Subject {
         this.image = image;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getLessonName() {
-        return lessonName;
-    }
-
-    public void setLessonName(String lessonName) {
-        this.lessonName = lessonName;
-    }
-
-    public int getNumberOfLessons() {
-        return numberOfLessons;
-    }
-
-    public void setNumberOfLessons(int numberOfLessons) {
-        this.numberOfLessons = numberOfLessons;
-    }
-
-    public int getLessonId() {
-        return lessonId;
-    }
-
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getPackageId() {
@@ -219,33 +134,61 @@ public class Subject {
         this.categoryId = categoryId;
     }
 
-    public int getUserId() {
-        return UserId;
+    public int getCreated_by() {
+        return created_by;
     }
 
-    public void setUserId(int UserId) {
-        this.UserId = UserId;
+    public void setCreated_by(int created_by) {
+        this.created_by = created_by;
     }
 
-    public int getRatingId() {
-        return RatingId;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setRatingId(int RatingId) {
-        this.RatingId = RatingId;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
-    public boolean isStatus() {
-        return status;
+    public String getCategory_name() {
+        return category_name;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getPackage_name() {
+        return package_name;
+    }
+
+    public void setPackage_name(String package_name) {
+        this.package_name = package_name;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getNumberOfLessons() {
+        return numberOfLessons;
+    }
+
+    public void setNumberOfLessons(int numberOfLessons) {
+        this.numberOfLessons = numberOfLessons;
     }
 
     @Override
     public String toString() {
-        return "Subject{" + "id=" + id + ", name=" + name + ", description=" + description + ", image=" + image + ", status=" + status + ", lessonId=" + lessonId + ", packageId=" + packageId + ", categoryId=" + categoryId + ", UserId=" + UserId + ", RatingId=" + RatingId + ", packageName=" + packageName + ", categoryName=" + categoryName + ", userName=" + userName + ", rating=" + rating + ", date=" + date + ", lessonName=" + lessonName + ", numberOfLessons=" + numberOfLessons + '}';
+        return "Subject{" + "id=" + id + ", name=" + name + ", description=" + description + ", image=" + image + ", status=" + status + ", packageId=" + packageId + ", categoryId=" + categoryId + ", created_by=" + created_by + ", created_at=" + created_at + ", category_name=" + category_name + ", package_name=" + package_name + ", userName=" + userName + ", numberOfLessons=" + numberOfLessons + '}';
+    }
+
+    public void setDate(java.sql.Date valueOf) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

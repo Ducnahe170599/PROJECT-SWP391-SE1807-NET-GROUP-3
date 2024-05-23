@@ -19,7 +19,7 @@ public class UserDAO extends DBContext {
         List<User> list = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM [User]";
+            String sql = "SELECT * FROM [Users]";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {

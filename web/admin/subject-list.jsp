@@ -13,10 +13,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Subjects List</title>
-        <link rel="stylesheet" href="styles.css">
+        <!--<link rel="stylesheet" href="styles.css">-->
         <style>
             body {
-                font-family: Arial, sans-serif;
+                box-sizing: border-box;
+                font-family: 'Poppins', 'sans-serif';
+                font-size: 18px;
                 background-color: #f4f4f4;
                 margin: 0;
                 padding: 0;
@@ -150,7 +152,7 @@
         <div class="container">
             <h1>Subjects List</h1>
             <div class="filters">
-                <form id="searchForm">
+                <form id="searchForm" action="subject-list">
                     <label for="search">Search by Name:</label>
                     <input value="${txtSearch}" type="text" id="search" name="txtSearch" placeholder="Subject name">
                     <button type="submit">Search</button>
@@ -158,7 +160,7 @@
                 <div>
                     <form action="subject-list" method="POST">
                         <label for="categoryFilter">Category:</label>
-                        <select name="cateid"  class="form-control">
+                        <select name="cateid" class="form-control">
                             <option value="0">All</option>
                             <c:forEach items="${listca}" var="c">
                                 <c:choose>
@@ -172,66 +174,55 @@
                             </c:forEach>
                         </select>
 
-                        <label for="packageFilter">Package:</label>
-                        <select name="packid"  class="form-control">
+                        <label for="statusFilter">Status:</label>
+                        <select name="status" class="form-control">
                             <option value="0">All</option>
-                            <c:forEach items="${listp}" var="p">
-                                <c:choose>
-                                    <c:when test="${p.id == packid}">
-                                        <option value="${p.id}" selected>${p.name}</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option value="${p.id}">${p.name}</option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </select>
+                            <option value="0" <c:if test="${status == 0}">selected</c:if>>Unpublished</option>
+                            <option value="1" <c:if test="${status == 1}">selected</c:if>>Published</option>
+                            </select>
 
-                        <button type="submit">Filter</button>
-                    </form>
-                </div>            
-            </div>
-            <div class="add-new">
-                <a href="new-subject">Add New Subject</a>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Package</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                        <th>Image</th>
-                        <th>Rating</th>
-                        <th>Number of Lessons</th>
-                        <th>Create At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="courseList">
+                            <button type="submit">Filter</button>
+                        </form>
+                    </div>            
+                </div>
+                <div class="add-new">
+                    <a href="new-subject">Add New Subject</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Package</th>
+                            <th>Owner</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th>Number of Lessons</th>
+                            <th>Create At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseList">
                     <c:forEach items="${lists}" var="s">
                         <tr>
                             <td>${s.id}</td>
                             <td>${s.name}</td>
-                            <td>${s.categoryName}</td>
+                            <td>${s.category_name}</td>
                             <td>${s.description}</td>
-                            <td>${s.packageName}</td>
+                            <td>${s.package_name}</td>
                             <td>${s.userName}</td>
                             <td>${s.status ? 'Published' : 'Unpublished'}</td>
-                            <td>${s.image}</td>
-                            <td>${s.rating}</td>
+                            <td><img src="../images/subjects/${s.image}"width="30" height="25"/></td>
                             <td>${s.numberOfLessons}</td>
-                            <td>${s.date}</td>
+                            <td>${s.created_at}</td>
                             <td>
                                 <a href="update-subject?id=${s.id}">Edit</a>
                                 <a href="#" onclick="doDeletebySubject('${s.id}')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
-                    <!-- Add more sample courses here -->
                 </tbody>
             </table>
             <h3 style="color: blue; text-align: center">${mess}</h3>
@@ -239,20 +230,19 @@
             <div class="pagination">
                 <a href="#">&laquo;</a>
                 <c:forEach begin="1" end="${endPage}" var="i">
-                    <!--<a href="#" class="active">1</a>-->
                     <a href="#">${i}</a>
                 </c:forEach>
                 <a href="#">&raquo;</a>
             </div>
-        </div>
 
-        <script type="text/javascript">
-            function doDeletebySubject(id) {
-                if (confirm("Are you sure to delete subject with id =" + id)) {
-                    window.location = "delete-subject?id=" + id;
+            <script type="text/javascript">
+                function doDeletebySubject(id) {
+                    if (confirm("Are you sure to delete subject with id =" + id)) {
+                        window.location = "delete-subject?id=" + id;
+                    }
                 }
-            }
-        </script>
+            </script>
+
     </body>
 
 </html>

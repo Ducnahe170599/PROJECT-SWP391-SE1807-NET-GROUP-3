@@ -20,16 +20,16 @@ public class PackageDAO extends DBContext {
         List<Packages> list = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM Package";
+            String sql = "SELECT * FROM Packages";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Packages p = new Packages(rs.getInt(1),
-                rs.getString(2),
-                rs.getInt(3),
-                rs.getBigDecimal(4),
-                rs.getBigDecimal(5),
-                rs.getString(6));
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getDouble(5),
+                        rs.getInt(6));
                 list.add(p);
             }
         } catch (SQLException e) {

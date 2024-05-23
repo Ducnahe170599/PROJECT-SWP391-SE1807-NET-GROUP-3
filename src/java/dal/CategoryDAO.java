@@ -21,7 +21,7 @@ public class CategoryDAO extends DBContext {
         List<Category> list = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM Category";
+            String sql = "SELECT * FROM Categories";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -32,6 +32,8 @@ public class CategoryDAO extends DBContext {
         }
         return list;
     }
+    
+    
 
     public static void main(String args[]) {
         // TODO code application logic here
