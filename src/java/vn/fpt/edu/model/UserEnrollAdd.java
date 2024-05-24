@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package fpt_model;
+package vn.fpt.edu.model;
 /**
  *
  * @author nguye
  */
-public class FPT_UserEnoll {
+public class UserEnrollAdd {
     private int enrollID;
     private int userID;
     private int subjectID;
@@ -17,7 +17,7 @@ public class FPT_UserEnoll {
     private String ValidFrom;
     private String ValidTo;
 
-    public FPT_UserEnoll(int enrollID, int userID, int subjectID, int PakageID, String Enroll_Date, String ValidFrom, String ValidTo) {
+    public UserEnrollAdd(int enrollID, int userID, int subjectID, int PakageID, String Enroll_Date, String ValidFrom, String ValidTo) {
         this.enrollID = enrollID;
         this.userID = userID;
         this.subjectID = subjectID;

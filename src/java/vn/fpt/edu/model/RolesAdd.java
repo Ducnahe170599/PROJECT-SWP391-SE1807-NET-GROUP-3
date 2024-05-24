@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package fpt_model;
+package vn.fpt.edu.model;
 
 /**
  *
  * @author nguye
  */
-public class FPT_Roles {
+public class RolesAdd {
 
     private int RolesID;
     private String Role_Name;
     private String Description;
 
-    public FPT_Roles(int RolesID, String Role_Name, String Description) {
+    public RolesAdd(int RolesID, String Role_Name, String Description) {
         this.RolesID = RolesID;
         this.Role_Name = Role_Name;
         this.Description = Description;

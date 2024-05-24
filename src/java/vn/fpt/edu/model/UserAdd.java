@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package fpt_model;
-
+package vn.fpt.edu.model;
 /**
  *
  * @author nguye
  */
-public class FPT_User {
+public class UserAdd {
     private int UserID;
     private String FullName;
     private String UserName;
@@ -22,7 +21,7 @@ public class FPT_User {
     private String Avatar;
     private int Create_at;
 
-    public FPT_User(int UserID, String FullName, String UserName, String DateOrBirth, String Email, String Password, int Phone, String Address, int Gender, int RoleID, String Avatar, int Create_at) {
+    public UserAdd(int UserID, String FullName, String UserName, String DateOrBirth, String Email, String Password, int Phone, String Address, int Gender, int RoleID, String Avatar, int Create_at) {
         this.UserID = UserID;
         this.FullName = FullName;
         this.UserName = UserName;
