@@ -4,34 +4,31 @@
  */
 package DAL;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ASUS
  */
 public class DBContext {
-
-    /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTILPE SQL SERVER INSTANCE(s)*/
-    /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
-    public Connection getConnection() throws Exception {
-        String url = "jdbc:sqlserver://" + serverName + ":" + portNumber
-                + ";databaseName=" + dbName;//+"; integratedSecurity=true";
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        return DriverManager.getConnection(url, userID, password);
-//        return DriverManager.getConnection(url);
-    }
-
-    private final String serverName = "localhost";
-    private final String dbName = "Quiz_DB";
-    private final String portNumber = "1433";
-    private final String userID = "sa";
-    private final String password = "123";
-    
-    public static void main(String[] args) {
+    protected Connection connection;
+    public DBContext()
+    {
+        //@Students: You are allowed to edit user, pass, url variables to fit 
+        //your system configuration
+        //You can also add more methods for Database Interaction tasks. 
+        //But we recommend you to do it in another class
+        // For example : StudentDBContext extends DBContext , 
+        //where StudentDBContext is located in dal package, 
         try {
-            new DBContext().getConnection();
-            System.out.println("Ket noi thanh cong");
-        } catch (Exception e) {
-            System.out.println("Ket noi that bai"+e.getMessage());
+            String user = "sa";
+            String pass = "123";
+            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Quiz_DB";
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(url, user, pass);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

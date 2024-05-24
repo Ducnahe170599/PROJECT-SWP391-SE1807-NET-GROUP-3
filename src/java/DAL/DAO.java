@@ -8,6 +8,7 @@ import java.util.*;
 import java.sql.*;
 import Models.*;
 
+
 /**
  *
  * @author ASUS
@@ -18,13 +19,16 @@ public class DAO {
     private List<User> users;
     private List<UserRole> usRole;
     private String status = "OK";
+    public static DAO INS = new DAO(); // INSTALL
 
-    public DAO() {
+    private DAO() {
+        if(INS == null)
         try {
-            con = new DBContext().getConnection();
+            con = new DBContext().connection;
         } catch (Exception e) {
             status = "Error at connection" + e.getMessage();
         }
+        else INS = this;
     }
 
     public void LoadAll() {
@@ -34,7 +38,7 @@ public class DAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("UserID");
+                int id = rs.getInt(1);
                 String fullName = rs.getString(2);
                 String userName = rs.getString(3);
                 java.sql.Date dbo = rs.getDate(4);
@@ -45,7 +49,8 @@ public class DAO {
                 boolean gender = rs.getBoolean(9);
                 int roleId = rs.getInt(10);
                 String avatar = rs.getString(11);
-                users.add(new User(roleId, fullName, userName, dbo, email, password, phone, add, gender, roleId, avatar, dbo));
+                java.sql.Date createAt = rs.getDate(12);
+                users.add(new User(id, fullName, userName, dbo, email, password, phone, add, gender, roleId, avatar, createAt));
             }
         } catch (Exception e) {
             status = "Error at red Student" + e.getMessage();
@@ -96,22 +101,45 @@ public class DAO {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public void Insert(String id, String name, boolean gender,
-            String departId, int age, float gpa,
-            String add, String img, String dob) {
-        String sql = "Insert into Student values(?,?,?,?,?,?,?,?,?)";
+    
+    public void CreateAcc( String fullName, String userName, java.sql.Date dob, String email, String password, 
+                String phone, java.sql.Date createAt) {
+        String sql = "Insert into Users values(?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, id);
-            ps.setString(2, name);
-            ps.setString(4, departId);
-            ps.setString(7, add);
-            ps.setString(8, img);
-            ps.setString(9, dob);
-            ps.setBoolean(3, gender);
-            ps.setInt(5, age);
-            ps.setFloat(6, gpa);
+            
+            ps.setString(2, fullName);
+            ps.setString(3, userName);
+            ps.setDate(4, dob);
+            ps.setString(5, email);
+            ps.setString(6, password);
+            ps.setString(7, phone);
+            
+            ps.setDate(12, createAt);
+            ps.execute();
+
+        } catch (Exception e) {
+            status = "Error at inssert student" + e.getMessage();
+        }
+    }
+
+    public void Insert( String fullName, String userName, java.sql.Date dob, String email, String password, 
+                String phone, String address, boolean gender, int roleId, String avatar, java.sql.Date createAt) {
+        String sql = "Insert into Users values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setString(2, fullName);
+            ps.setString(3, userName);
+            ps.setDate(4, dob);
+            ps.setString(5, email);
+            ps.setString(6, password);
+            ps.setString(7, phone);
+            ps.setString(8, address);
+            ps.setBoolean(9, gender);
+            ps.setInt(10, roleId);
+            ps.setString(11, avatar);
+            ps.setDate(12, createAt);
             ps.execute();
 
         } catch (Exception e) {
@@ -181,7 +209,7 @@ public class DAO {
 class Using {
 
     public static void main(String[] args) {
-        DAO d = new DAO();
+        DAO d = DAO.INS;
         d.LoadAll();
         for (User us : d.getUser()) {
             System.out.println(us);
