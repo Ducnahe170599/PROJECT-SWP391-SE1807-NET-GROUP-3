@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controllers;
+package vn.fpt.edu.Controllers;
 
-import DAL.DAO;
-import Models.User;
+import vn.fpt.edu.DAL.DAO;
+import vn.fpt.edu.Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -89,9 +89,9 @@ public class RegisterServlet extends HttpServlet {
             Date date = Date.valueOf(dob);
             if (isValidInput(email, password, confirmPass)) {
             createUserAccount(fullname, username, date, email, password, confirmPass);
-            response.sendRedirect("Views/login.jsp");
+            response.sendRedirect("Views/status.jsp");
         } else {
-            request.setAttribute("error", "Invalid input. Please try again.");
+            
             request.getRequestDispatcher("Views/login.jsp").forward(request, response);
         }
         } catch (Exception e) {

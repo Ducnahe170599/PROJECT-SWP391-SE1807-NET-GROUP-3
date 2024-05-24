@@ -34,13 +34,13 @@
         <div class="form login">
             <div class="form-content">
                 <header>Login</header>
-                <form action="#">
+                <form action="Login" method="post">
                     <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input">
+                        <input type="email" placeholder="Email" class="input" name="email">
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Password" class="password">
+                        <input type="password" placeholder="Password" class="password" name="password">
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 

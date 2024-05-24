@@ -3,14 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controllers;
+package vn.fpt.edu.Controllers;
 
+import vn.fpt.edu.DAL.DAO;
+import vn.fpt.edu.Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -66,7 +69,18 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
         
+        DAO.INS.LoadAll();
+        List<User> us = DAO.INS.getUser();
+        for (User u : us){
+            if(u.getEmail().equals(email) && (u.getPassword().equals(password))){
+                response.sendRedirect("Views/status.jsp");
+            }else{
+                request.getRequestDispatcher("Views/login.jsp").forward(request, response);
+            }
+        }
     }
 
     /** 

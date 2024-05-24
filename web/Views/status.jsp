@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <% DAO d = (DAO)request.getAttribute("dao"); %>
+        <h1>Status</h1>
+        
     </body>
 </html>

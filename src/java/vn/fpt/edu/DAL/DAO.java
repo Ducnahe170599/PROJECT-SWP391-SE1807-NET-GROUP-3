@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAL;
+package vn.fpt.edu.DAL;
 
+import vn.fpt.edu.Models.User;
+import vn.fpt.edu.Models.UserRole;
 import java.util.*;
 import java.sql.*;
-import Models.*;
 
 
 /**
