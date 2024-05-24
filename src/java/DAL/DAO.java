@@ -86,7 +86,7 @@ public class DAO {
     }
 
     public void setUsRole(List<UserRole> dept) {
-        this.dept = dept;
+        this.usRole = dept;
     }
 
     public String getStatus() {
@@ -183,8 +183,8 @@ class Using {
     public static void main(String[] args) {
         DAO d = new DAO();
         d.LoadAll();
-        for (Student st : d.getStd()) {
-            System.out.println(st);
+        for (User us : d.getUser()) {
+            System.out.println(us);
         }
     }
 }
