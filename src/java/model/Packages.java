@@ -17,6 +17,7 @@ public class Packages {
     private double price;
     private double salePrice;
     private int duration;
+    private String status;
 
     public Packages() {
     }
@@ -28,6 +29,25 @@ public class Packages {
         this.price = price;
         this.salePrice = salePrice;
         this.duration = duration;
+    }
+
+    public Packages(int id, String name, String description, double price, double salePrice, int duration, String status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.salePrice = salePrice;
+        this.duration = duration;
+        this.status = status;
+    }
+
+    public Packages(String name, String description, double price, double salePrice, int duration, String status) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.salePrice = salePrice;
+        this.duration = duration;
+        this.status = status;
     }
 
     public int getId() {
@@ -78,10 +98,17 @@ public class Packages {
         this.duration = duration;
     }
 
-    @Override
-    public String toString() {
-        return "Packages{" + "id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", salePrice=" + salePrice + ", duration=" + duration + '}';
+    public String getStatus() {
+        return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Packages{" + "id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", salePrice=" + salePrice + ", duration=" + duration + ", status=" + status + '}';
+    }
     
 }

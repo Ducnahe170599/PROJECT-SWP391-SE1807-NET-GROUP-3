@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>AddSubjectServlet</servlet-name>
-        <servlet-class>controller.admin.AddSubjectServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SubjectListServlet</servlet-name>
         <servlet-class>controller.admin.SubjectListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddSubjectServlet</servlet-name>
+        <servlet-class>controller.admin.AddSubjectServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteSubjectServlet</servlet-name>
@@ -16,13 +16,45 @@
         <servlet-name>UpdateSubjectServlet</servlet-name>
         <servlet-class>controller.admin.UpdateSubjectServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AddSubjectServlet</servlet-name>
-        <url-pattern>/admin/new-subject</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>PricePackageServlet</servlet-name>
+        <servlet-class>controller.admin.PricePackageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddPackageServlet</servlet-name>
+        <servlet-class>controller.admin.AddPackageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePackageServlet</servlet-name>
+        <servlet-class>controller.admin.DeletePackageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatePackageServlet</servlet-name>
+        <servlet-class>controller.admin.UpdatePackageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LessonListServlet</servlet-name>
+        <servlet-class>controller.admin.LessonListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <servlet-class>controller.admin.AddLessonServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <servlet-class>controller.admin.DeleteLessonServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateLessonServlet</servlet-name>
+        <servlet-class>controller.admin.UpdateLessonServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SubjectListServlet</servlet-name>
         <url-pattern>/admin/subject-list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSubjectServlet</servlet-name>
+        <url-pattern>/admin/new-subject</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteSubjectServlet</servlet-name>
@@ -31,5 +63,37 @@
     <servlet-mapping>
         <servlet-name>UpdateSubjectServlet</servlet-name>
         <url-pattern>/admin/update-subject</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricePackageServlet</servlet-name>
+        <url-pattern>/admin/price-package</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddPackageServlet</servlet-name>
+        <url-pattern>/admin/new-package</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePackageServlet</servlet-name>
+        <url-pattern>/admin/delete-package</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatePackageServlet</servlet-name>
+        <url-pattern>/admin/update-package</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LessonListServlet</servlet-name>
+        <url-pattern>/admin/lessons</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <url-pattern>/admin/new-lesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <url-pattern>/admin/delete-lesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateLessonServlet</servlet-name>
+        <url-pattern>/admin/update-lesson</url-pattern>
     </servlet-mapping>
 </web-app>
