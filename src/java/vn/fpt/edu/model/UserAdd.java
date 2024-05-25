@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package vn.fpt.edu.model;
+
+import java.sql.Timestamp;
+
+import java.util.Date;
+
 /**
  *
  * @author nguye
@@ -11,7 +16,7 @@ public class UserAdd {
     private int UserID;
     private String FullName;
     private String UserName;
-    private String DateOrBirth;
+    private Date DateOrBirth;
     private String Email;
     private String Password;
     private int Phone;
@@ -19,9 +24,9 @@ public class UserAdd {
     private int Gender;
     private int RoleID;
     private String Avatar;
-    private int Create_at;
+    private Timestamp  Create_at;
 
-    public UserAdd(int UserID, String FullName, String UserName, String DateOrBirth, String Email, String Password, int Phone, String Address, int Gender, int RoleID, String Avatar, int Create_at) {
+    public UserAdd(int UserID, String FullName, String UserName, Date DateOrBirth, String Email, String Password, int Phone, String Address, int Gender, int RoleID, String Avatar, Timestamp Create_at) {
         this.UserID = UserID;
         this.FullName = FullName;
         this.UserName = UserName;
@@ -60,11 +65,11 @@ public class UserAdd {
         this.UserName = UserName;
     }
 
-    public String getDateOrBirth() {
+    public Date getDateOrBirth() {
         return DateOrBirth;
     }
 
-    public void setDateOrBirth(String DateOrBirth) {
+    public void setDateOrBirth(Date DateOrBirth) {
         this.DateOrBirth = DateOrBirth;
     }
 
@@ -124,11 +129,13 @@ public class UserAdd {
         this.Avatar = Avatar;
     }
 
-    public int getCreate_at() {
+    public Timestamp getCreate_at() {
         return Create_at;
     }
 
-    public void setCreate_at(int Create_at) {
+    public void setCreate_at(Timestamp Create_at) {
         this.Create_at = Create_at;
     }
+
+    
 }

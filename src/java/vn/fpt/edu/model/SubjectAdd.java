@@ -4,6 +4,9 @@
  */
 package vn.fpt.edu.model;
 
+import java.sql.Timestamp;
+
+
 /**
  *
  * @author nguye
@@ -17,9 +20,9 @@ public class SubjectAdd {
     private int PackageId;
     private int CategoryId;
     private int created_by;
-    private String Created_at;
+    private Timestamp  Created_at;
 
-    public SubjectAdd(int SubjectID, String Subject_Name, String Description, String Image, int Status, int PackageId, int CategoryId, int created_by, String Created_at) {
+    public SubjectAdd(int SubjectID, String Subject_Name, String Description, String Image, int Status, int PackageId, int CategoryId, int created_by, Timestamp Created_at) {
         this.SubjectID = SubjectID;
         this.Subject_Name = Subject_Name;
         this.Description = Description;
@@ -95,12 +98,12 @@ public class SubjectAdd {
         this.created_by = created_by;
     }
 
-    public String getCreated_at() {
+    public Timestamp getCreated_at() {
         return Created_at;
     }
 
-    public void setCreated_at(String Created_at) {
+    public void setCreated_at(Timestamp Created_at) {
         this.Created_at = Created_at;
     }
-    
+
 }

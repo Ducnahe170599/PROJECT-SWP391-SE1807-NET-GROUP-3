@@ -4,6 +4,9 @@
  */
 package vn.fpt.edu.model;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  *
  * @author nguye
@@ -15,11 +18,11 @@ public class MyRegistrationsAdd {
     private int PackageID;
     private float total_cost;
     private int status;
-    private String valid_from;
-    private String valid_to;
-    private String create_at;    
+    private Date valid_from;
+    private Date valid_to;
+    private Timestamp create_at;    
 
-    public MyRegistrationsAdd(int UserID, String Email, int CategoryID, int PackageID, float total_cost, int status, String valid_from, String valid_to, String create_at) {
+    public MyRegistrationsAdd(int UserID, String Email, int CategoryID, int PackageID, float total_cost, int status, Date valid_from, Date valid_to, Timestamp create_at) {
         this.UserID = UserID;
         this.Email = Email;
         this.CategoryID = CategoryID;
@@ -79,28 +82,29 @@ public class MyRegistrationsAdd {
         this.status = status;
     }
 
-    public String getValid_from() {
+    public Date getValid_from() {
         return valid_from;
     }
 
-    public void setValid_from(String valid_from) {
+    public void setValid_from(Date valid_from) {
         this.valid_from = valid_from;
     }
 
-    public String getValid_to() {
+    public Date getValid_to() {
         return valid_to;
     }
 
-    public void setValid_to(String valid_to) {
+    public void setValid_to(Date valid_to) {
         this.valid_to = valid_to;
     }
 
-    public String getCreate_at() {
+    public Timestamp getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(String create_at) {
+    public void setCreate_at(Timestamp create_at) {
         this.create_at = create_at;
     }
+
     
 }
