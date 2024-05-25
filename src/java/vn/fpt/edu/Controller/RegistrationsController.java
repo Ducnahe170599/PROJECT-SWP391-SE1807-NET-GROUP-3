@@ -9,7 +9,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import vn.fpt.edu.DAO.RegistrationsDBContext;
+import vn.fpt.edu.model.RegistrationsAdd;
 
 
 /**
@@ -67,28 +69,20 @@ public class RegistrationsController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private RegistrationsDBContext  RegistrationsDBContext;
-    @Override
-    public void init(){
-        RegistrationsDBContext = new RegistrationsDBContext();
-    }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String email = request.getParameter("email");
-        String subject = request.getParameter("subject");
-        String status = request.getParameter("status");
-        String dateFrom = request.getParameter("date_from");
-        String dateTo = request.getParameter("date_to");
+        ArrayList<RegistrationsAdd> registrations = getAllRegistrations();
 
-        List<Registration> registrations = RegistrationsDBContext.FilterRegistrations(email, subject, status, dateFrom, dateTo);
-
+        // Set the registrations list as a request attribute
         request.setAttribute("registrations", registrations);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
 
+        // Forward the request to a JSP to display the registrations
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/registrations.jsp");
+        dispatcher.forward(request, response);
+    }
+    
     /**
      * Returns a short description of the servlet.
      *
