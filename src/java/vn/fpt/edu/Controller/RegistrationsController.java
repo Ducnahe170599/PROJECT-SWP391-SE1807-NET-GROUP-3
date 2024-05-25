@@ -9,9 +9,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import vn.fpt.edu.DAO.RegistrationsDBContext;
-import vn.fpt.edu.model.RegistrationsAdd;
+import vn.fpt.edu.model.MyRegistrationsAdd;
+import vn.fpt.edu.model.UserAdd;
 
 
 /**
@@ -73,14 +75,27 @@ public class RegistrationsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<RegistrationsAdd> registrations = getAllRegistrations();
 
-        // Set the registrations list as a request attribute
-        request.setAttribute("registrations", registrations);
+         try {
+            int userID = Integer.parseInt(request.getParameter("UserID"));
+            HttpSession session = request.getSession();
+            RegistrationsDBContext registrations = new RegistrationsDBContext();
+            UserAdd user = (UserAdd) session.getAttribute("user");
 
-        // Forward the request to a JSP to display the registrations
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/registrations.jsp");
-        dispatcher.forward(request, response);
+            if (user != null) {
+                List<MyRegistrationsAdd> list = registrations.getRegistrationDetails(userID);
+                request.setAttribute("list", list);
+                request.getRequestDispatcher("RegistrationsPage.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("login.jsp");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
     }
     
     /**
