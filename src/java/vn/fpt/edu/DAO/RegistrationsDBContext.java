@@ -132,7 +132,7 @@ public class RegistrationsDBContext extends DBContext {
         return list;
     }
 
-    public List<MyRegistrationsAdd> getRegistrationDetails() throws SQLException {
+    public List<MyRegistrationsAdd> getRegistrationDetails(int UserId) throws SQLException {
         List<MyRegistrationsAdd> registrationDetails = new ArrayList<>();
         try {String sql = "SELECT "
                 + "Users.userID, "
