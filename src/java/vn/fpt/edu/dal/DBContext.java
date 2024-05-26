@@ -10,10 +10,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Admin
- */
 public class DBContext {
 
     public Connection connection;
@@ -22,7 +18,7 @@ public class DBContext {
         try {
             String user = "sa";
             String pass = "123";
-            String database = "Quiz Db";
+            String database = "Quiz_DB"; // Thay đổi tên cơ sở dữ liệu cho đúng
             String url = "jdbc:sqlserver://localhost:1433;databaseName=" + database + "";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
@@ -30,10 +26,18 @@ public class DBContext {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   public Connection getConnection() {
+
+    public Connection getConnection() {
         return connection;
     }
-    public static void main(String[] args) throws SQLException {
 
+    public static void main(String[] args) {
+        DBContext db = new DBContext();
+        if (db.getConnection() != null) {
+            System.out.println("Connection Successful!");
+        } else {
+            System.out.println("Connection Failed!");
+        }
     }
 }
+

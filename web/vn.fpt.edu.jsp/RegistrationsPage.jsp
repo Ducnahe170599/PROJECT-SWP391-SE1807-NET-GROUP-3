@@ -4,7 +4,6 @@
 <head>
     <title>Registrations</title>
     <style>
-        /* Thêm CSS để tùy chỉnh giao diện */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -37,12 +36,11 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Data sẽ được thêm vào đây bởi JavaScript -->
+            <!-- Data will be added here by JavaScript -->
         </tbody>
     </table>
 
     <script>
-        // Fetch data từ servlet và hiển thị trên bảng
         function fetchData() {
             fetch('registrations')
                 .then(response => response.json())
@@ -68,10 +66,8 @@
                 });
         }
 
-        // Gọi hàm fetchData khi tải trang
         window.onload = fetchData;
 
-        // Hàm xóa đăng ký
         function deleteRegistration(registerID) {
             if (confirm('Are you sure you want to delete this registration?')) {
                 fetch(`deleteRegistration?registerID=${registerID}`, {
@@ -87,7 +83,6 @@
             }
         }
 
-        // Tìm kiếm
         document.getElementById('search').addEventListener('input', function () {
             const filter = this.value.toUpperCase();
             const rows = document.querySelectorAll('#registrationsTable tbody tr');

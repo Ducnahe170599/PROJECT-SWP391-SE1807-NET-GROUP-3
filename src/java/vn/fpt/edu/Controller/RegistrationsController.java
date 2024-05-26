@@ -10,13 +10,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import vn.fpt.edu.DAO.RegistrationsDBContext;
-import vn.fpt.edu.model.MyRegistrationsAdd;
 import vn.fpt.edu.model.RegistrationsAdd;
-import vn.fpt.edu.model.UserAdd;
+
 
 /**
  *
@@ -76,32 +73,33 @@ public class RegistrationsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("application/json");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        try (PrintWriter out = response.getWriter()) {
-            RegistrationsDBContext registrationDB = new RegistrationsDBContext();
-            List<RegistrationsAdd> registrations = registrationDB.getAllRegistrations();
+        RegistrationsDBContext registrationDB = new RegistrationsDBContext();
+        List<RegistrationsAdd> registrations = registrationDB.getAllRegistrations();
 
-            StringBuilder json = new StringBuilder("[");
-            for (int i = 0; i < registrations.size(); i++) {
-                RegistrationsAdd registration = registrations.get(i);
-                json.append("{")
-                    .append("\"RegisterID\":").append(registration.getRegisterID()).append(",")
-                    .append("\"UserID\":").append(registration.getUserID()).append(",")
-                    .append("\"SubjectID\":").append(registration.getSubjectID()).append(",")
-                    .append("\"PackageID\":").append(registration.getPackageID()).append(",")
-                    .append("\"total_cost\":").append(registration.getTotal_cost()).append(",")
-                    .append("\"status\":").append(registration.getStatus()).append(",")
-                    .append("\"valid_from\":\"").append(registration.getValid_from()).append("\",")
-                    .append("\"valid_to\":\"").append(registration.getValid_to()).append("\",")
-                    .append("\"create_at\":\"").append(registration.getCreate_at()).append("\"")
-                    .append("}");
-                if (i < registrations.size() - 1) {
-                    json.append(",");
-                }
+        StringBuilder json = new StringBuilder("[");
+        for (int i = 0; i < registrations.size(); i++) {
+            RegistrationsAdd registration = registrations.get(i);
+            json.append("{")
+                .append("\"RegisterID\":").append(registration.getRegisterID()).append(",")
+                .append("\"UserID\":").append(registration.getUserID()).append(",")
+                .append("\"SubjectID\":").append(registration.getSubjectID()).append(",")
+                .append("\"PackageID\":").append(registration.getPackageID()).append(",")
+                .append("\"total_cost\":").append(registration.getTotal_cost()).append(",")
+                .append("\"status\":").append(registration.getStatus()).append(",")
+                .append("\"valid_from\":\"").append(registration.getValid_from()).append("\",")
+                .append("\"valid_to\":\"").append(registration.getValid_to()).append("\",")
+                .append("\"create_at\":\"").append(registration.getCreate_at()).append("\"")
+                .append("}");
+            if (i < registrations.size() - 1) {
+                json.append(",");
             }
-            json.append("]");
+        }
+        json.append("]");
+        
+        try (PrintWriter out = response.getWriter()) {
             out.print(json.toString());
         }
     }
