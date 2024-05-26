@@ -16,21 +16,24 @@ import java.util.logging.Logger;
  */
 public class DBContext {
 
-  public Connection connection;
+    public Connection connection;
 
     public DBContext() {
         try {
             String user = "sa";
             String pass = "123";
-            String database = "QuizPractice";
-            String url = "jdbc:sqlserver://localhost:1433;databaseName="+database+"";
+            String database = "Quiz Db";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=" + database + "";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-      
+   public Connection getConnection() {
+        return connection;
+    }
+    public static void main(String[] args) throws SQLException {
+
     }
 }

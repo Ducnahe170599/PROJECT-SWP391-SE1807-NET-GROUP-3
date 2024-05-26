@@ -4,6 +4,7 @@
  */
 package vn.fpt.edu.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -11,19 +12,21 @@ import java.util.Date;
  *
  * @author nguye
  */
+
 public class RegistrationsAdd {
 
     private int RegisterID;
     private int UserID;
     private int SubjectID;
     private int PackageID;
-    private float total_cost;
+    private BigDecimal total_cost;
     private int status;
     private Date valid_from;
     private Date valid_to;
     private Timestamp  create_at;    
-
-    public RegistrationsAdd(int RegisterID, int UserID, int SubjectID, int PackageID, float total_cost, int status, Date valid_from, Date valid_to, Timestamp create_at) {
+   
+    
+    public RegistrationsAdd(int RegisterID, int UserID, int SubjectID, int PackageID, BigDecimal total_cost, int status, Date valid_from, Date valid_to, Timestamp create_at) {
         this.RegisterID = RegisterID;
         this.UserID = UserID;
         this.SubjectID = SubjectID;
@@ -67,11 +70,11 @@ public class RegistrationsAdd {
         this.PackageID = PackageID;
     }
 
-    public float getTotal_cost() {
+    public BigDecimal getTotal_cost() {
         return total_cost;
     }
 
-    public void setTotal_cost(float total_cost) {
+    public void setTotal_cost(BigDecimal total_cost) {
         this.total_cost = total_cost;
     }
 
@@ -106,5 +109,7 @@ public class RegistrationsAdd {
     public void setCreate_at(Timestamp create_at) {
         this.create_at = create_at;
     }
+
+    
 
 }

@@ -10,19 +10,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 import vn.fpt.edu.DAO.RegistrationsDBContext;
-import vn.fpt.edu.model.MyRegistrationsAdd;
-import vn.fpt.edu.model.RegistrationsAdd;
-import vn.fpt.edu.model.UserAdd;
 
 /**
  *
  * @author nguye
  */
-public class RegistrationsController extends HttpServlet {
+public class DeleteRegistrionsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +35,10 @@ public class RegistrationsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegistrationsController</title>");
+            out.println("<title>Servlet DeleteRegistrionsController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegistrationsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteRegistrionsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,8 +56,15 @@ public class RegistrationsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+         String registerIDParam = request.getParameter("registerID");
+        if (registerIDParam != null) {
+            int registerID = Integer.parseInt(registerIDParam);
+            RegistrationsDBContext registrationDB = new RegistrationsDBContext();
+            registrationDB.deleteRegistration(registerID);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -76,40 +77,17 @@ public class RegistrationsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        try (PrintWriter out = response.getWriter()) {
-            RegistrationsDBContext registrationDB = new RegistrationsDBContext();
-            List<RegistrationsAdd> registrations = registrationDB.getAllRegistrations();
-
-            StringBuilder json = new StringBuilder("[");
-            for (int i = 0; i < registrations.size(); i++) {
-                RegistrationsAdd registration = registrations.get(i);
-                json.append("{")
-                    .append("\"RegisterID\":").append(registration.getRegisterID()).append(",")
-                    .append("\"UserID\":").append(registration.getUserID()).append(",")
-                    .append("\"SubjectID\":").append(registration.getSubjectID()).append(",")
-                    .append("\"PackageID\":").append(registration.getPackageID()).append(",")
-                    .append("\"total_cost\":").append(registration.getTotal_cost()).append(",")
-                    .append("\"status\":").append(registration.getStatus()).append(",")
-                    .append("\"valid_from\":\"").append(registration.getValid_from()).append("\",")
-                    .append("\"valid_to\":\"").append(registration.getValid_to()).append("\",")
-                    .append("\"create_at\":\"").append(registration.getCreate_at()).append("\"")
-                    .append("}");
-                if (i < registrations.size() - 1) {
-                    json.append(",");
-                }
-            }
-            json.append("]");
-            out.print(json.toString());
-        }
+        processRequest(request, response);
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-

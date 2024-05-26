@@ -1,55 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package vn.fpt.edu.DAO;
 
-import java.util.ArrayList;
+import jakarta.servlet.Registration;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import vn.fpt.edu.dal.DBContext;
 import vn.fpt.edu.model.CategoriesAdd;
 import vn.fpt.edu.model.MyRegistrationsAdd;
-import vn.fpt.edu.model.RegistrationsAdd;
-import vn.fpt.edu.model.UserAdd;
 import vn.fpt.edu.model.PackageAdd;
+import vn.fpt.edu.model.RegistrationsAdd;
 import vn.fpt.edu.model.SubjectAdd;
-import java.util.List;
+import vn.fpt.edu.model.UserAdd;
 
-/**
- *
- * @author nguye
- */
 public class RegistrationsDBContext extends DBContext {
 
-    public ArrayList<RegistrationsAdd> getAllRegistrations() {
-        ArrayList<RegistrationsAdd> list = new ArrayList<>();
+
+      
+    public List<RegistrationsAdd> getAllRegistrations() {
+        List<RegistrationsAdd> registrations = new ArrayList<>();
+        String sql = "SELECT RegisterID, UserID, SubjectID, PackageID, total_cost, status, valid_from, valid_to, create_at FROM Registrations";
         try {
-            String sql = "select * from Registrations";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new RegistrationsAdd(rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getInt(4),
-                        rs.getFloat(5),
-                        rs.getInt(6),
-                        rs.getDate(7),
-                        rs.getDate(8),
-                        rs.getTimestamp(9)));
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                RegistrationsAdd registration = new RegistrationsAdd(
+                    resultSet.getInt("RegisterID"),
+                    resultSet.getInt("UserID"),
+                    resultSet.getInt("SubjectID"),
+                    resultSet.getInt("PackageID"),
+                    resultSet.getBigDecimal("total_cost"),
+                    resultSet.getInt("status"),
+                    resultSet.getDate("valid_from"),
+                    resultSet.getDate("valid_to"),
+                    resultSet.getTimestamp("create_at")
+                );
+                registrations.add(registration);
             }
         } catch (SQLException e) {
-            System.out.println("getAllRegistration Error!");
+            e.printStackTrace();
         }
-        return list;
+        return registrations;
+    }
+
+    public void deleteRegistration(int registerID) {
+        String sql = "DELETE FROM Registrations WHERE RegisterID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, registerID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<UserAdd> getAllUser() {
         ArrayList<UserAdd> GetUser = new ArrayList<>();
         try {
-            String sql = "select * from Users";
+            String sql = "SELECT * FROM Users";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -68,7 +77,7 @@ public class RegistrationsDBContext extends DBContext {
                 ));
             }
         } catch (SQLException e) {
-            System.out.println("getAllUser Error!");
+            e.printStackTrace();
         }
         return GetUser;
     }
@@ -76,7 +85,7 @@ public class RegistrationsDBContext extends DBContext {
     public ArrayList<PackageAdd> getAllPackages() {
         ArrayList<PackageAdd> PackageAdd = new ArrayList<>();
         try {
-            String sql = "select * from Users";
+            String sql = "SELECT * FROM Packages";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -88,7 +97,7 @@ public class RegistrationsDBContext extends DBContext {
                         rs.getInt(6)));
             }
         } catch (SQLException e) {
-            System.out.println("getAllUser Error!");
+            e.printStackTrace();
         }
         return PackageAdd;
     }
@@ -96,7 +105,7 @@ public class RegistrationsDBContext extends DBContext {
     public ArrayList<SubjectAdd> getAllSubjects() {
         ArrayList<SubjectAdd> list = new ArrayList<>();
         try {
-            String sql = "select * from Users";
+            String sql = "SELECT * FROM Subjects";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -104,14 +113,14 @@ public class RegistrationsDBContext extends DBContext {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getInt(4),
                         rs.getInt(5),
-                        rs.getTimestamp(6)));
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getTimestamp(9)));
             }
         } catch (SQLException e) {
-            System.out.println("getAllUser Error!");
+            e.printStackTrace();
         }
         return list;
     }
@@ -119,7 +128,7 @@ public class RegistrationsDBContext extends DBContext {
     public ArrayList<CategoriesAdd> getAllCategories() {
         ArrayList<CategoriesAdd> list = new ArrayList<>();
         try {
-            String sql = "select * from Users";
+            String sql = "SELECT * FROM Categories";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -127,14 +136,15 @@ public class RegistrationsDBContext extends DBContext {
                         rs.getString(2)));
             }
         } catch (SQLException e) {
-            System.out.println("getAllUser Error!");
+            e.printStackTrace();
         }
         return list;
     }
 
-    public List<MyRegistrationsAdd> getRegistrationDetails(int UserId) throws SQLException {
+    public List<MyRegistrationsAdd> getRegistrationDetails(int userId) {
         List<MyRegistrationsAdd> registrationDetails = new ArrayList<>();
-        try {String sql = "SELECT "
+        try {
+            String sql = "SELECT "
                 + "Users.userID, "
                 + "Users.email, "
                 + "Subject.subjectID, "
@@ -152,10 +162,12 @@ public class RegistrationsDBContext extends DBContext {
                 + "Users "
                 + "JOIN Registration ON Users.userID = Registration.userID "
                 + "JOIN Subject ON Registration.subjectID = Subject.subjectID "
-                + "JOIN Package ON Registration.packageID = Package.packageID"; 
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery(); 
-                while (rs.next()) {
+                + "JOIN Package ON Registration.packageID = Package.packageID "
+                + "WHERE Users.userID = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 registrationDetails.add(new MyRegistrationsAdd(rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
@@ -166,10 +178,10 @@ public class RegistrationsDBContext extends DBContext {
                         rs.getDate(8),
                         rs.getTimestamp(9)));
             }
-
-        } catch (Exception e) {
-            System.out.println("getRegistrationDetails error!");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return registrationDetails;
     }
+    
 }
