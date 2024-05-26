@@ -273,6 +273,19 @@ public class SubjectDAO extends DBContext {
 
     }
 
+    public int getTotalSubject() {
+        String sql = "SELECT COUNT(*) FROM Subjects";
+        try {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public void insert(Subject subject) {
 
         String sql = "INSERT INTO [dbo].[Subjects]\n"
@@ -435,7 +448,6 @@ public class SubjectDAO extends DBContext {
 //
 //        // Insert the new subject into the database
 //        sdao.insert(subject);
-
         int count = sdao.countSearch("p");
         System.out.println(count);
     }

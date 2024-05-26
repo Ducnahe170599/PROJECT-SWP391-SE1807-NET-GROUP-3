@@ -58,38 +58,52 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        final int PAGE_SIZE = 5;
         String txtSearch = request.getParameter("txtSearch");
 
         CategoryDAO cdao = new CategoryDAO();
         PackageDAO pdao = new PackageDAO();
         SubjectDAO sdao = new SubjectDAO();
         List<Category> listca = cdao.getAllCategory();
-        List<Subject> lists;
 
-        // Search //
-        if (txtSearch != null && !txtSearch.isEmpty()) {
-            List<Subject> searchByName = sdao.searchByName(txtSearch);
-            if (searchByName == null || searchByName.isEmpty()) {
-                request.setAttribute("mess", "Not Found Subject");
+        try {
+            List<Subject> lists = sdao.getAllSubjects();
+
+            // Search functionality
+            if (txtSearch != null && !txtSearch.isEmpty()) {
+                lists = sdao.searchByName(txtSearch);
+                if (lists == null || lists.isEmpty()) {
+                    request.setAttribute("mess", "Not Found Subject");
+                }
+//            } else {
+//                // Pagination functionality
+//                lists = sdao.getAllSubjects();
             }
-            lists = searchByName;
-        } else {
-            lists = sdao.getAllSubjects();
-        }
-        int countSearch = sdao.countSearch(txtSearch);
-        //System.out.println("The number of subject: " + countSearch);
-        int pageSize = 5;
-        int endPage = 0;
-        endPage = countSearch / pageSize;
-        if (countSearch % pageSize != 0) {
-            endPage++;
-        }
-        request.setAttribute("endPage", endPage);
+            int page = 1; // Default to page 1
+            String pageStr = request.getParameter("page");
+            if (pageStr != null) {
+                page = Integer.parseInt(pageStr);
+            }
 
-        request.setAttribute("listca", listca);
-        request.setAttribute("lists", lists);
-        request.setAttribute("txtSearch", txtSearch);
-        request.getRequestDispatcher("subject-list.jsp").forward(request, response);
+            int totalSubject = sdao.getTotalSubject();
+            int pageSize = PAGE_SIZE;
+
+            int totalPage = calculateTotalPage(lists.size(), pageSize);
+
+            List<Subject> listsubject = lists.subList((page - 1) * PAGE_SIZE, Math.min(page * PAGE_SIZE, lists.size()));
+
+            request.setAttribute("lists", listsubject);
+            request.setAttribute("page", page);
+            request.setAttribute("totalPage", totalPage);
+            request.setAttribute("listca", listca);
+            request.setAttribute("txtSearch", txtSearch);
+
+            request.getRequestDispatcher("subject-list.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Invalid page number");
+            request.getRequestDispatcher("subject-list.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -115,6 +129,9 @@ public class SubjectListServlet extends HttpServlet {
 
         List<Subject> lists = sdao.getSubjectsByCategoryAndStatus(cateid, statusValue);
 
+        if (lists == null || lists.isEmpty()) {
+            request.setAttribute("mess", "Not Found Subject");
+        }
         request.setAttribute("listca", listca);
         request.setAttribute("lists", lists);
         request.setAttribute("cateid", cateid);
@@ -122,6 +139,13 @@ public class SubjectListServlet extends HttpServlet {
 
         request.getRequestDispatcher("subject-list.jsp").forward(request, response);
 
+    }
+
+    public int calculateTotalPage(int listSize, int pageSize) {
+        if (listSize <= 0 || pageSize <= 0) {
+            return 0;
+        }
+        return (int) Math.ceil((double) listSize / pageSize);
     }
 
     /**

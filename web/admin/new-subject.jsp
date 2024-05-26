@@ -162,11 +162,11 @@
                     <select id="package" name="status">
                         <option value="0" <c:if test="${status == 1}">selected</c:if>>Published</option>
                         <option value="1" <c:if test="${status == 0}">selected</c:if>>Unpublished</option>
-                        </select><br><br>
+                    </select><br><br>
 
-                        <label for="userId">Owner</label><br>
+                    <label for="userId">Owner</label><br>
                         <!--<input type="number" id="userId" name="userId" required><br><br>-->
-                        <select id="userId" name="userId">
+                    <select id="userId" name="userId">
                         <c:forEach items="${listu}" var="i">
                             <option value="${i.id}">${i.username}</option>
                         </c:forEach>

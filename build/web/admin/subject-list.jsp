@@ -14,6 +14,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Subjects List</title>
         <!--<link rel="stylesheet" href="styles.css">-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <style>
             body {
                 box-sizing: border-box;
@@ -227,13 +233,35 @@
             </table>
             <h3 style="color: blue; text-align: center">${mess}</h3>
 
-            <div class="pagination">
-                <a href="#">&laquo;</a>
-                <c:forEach begin="1" end="${endPage}" var="i">
-                    <a href="#">${i}</a>
-                </c:forEach>
-                <a href="#">&raquo;</a>
-            </div>
+            <!--            <div class="pagination">
+                            <a href="subject-list?index=${currentPage-1}">&laquo;</a>
+            <c:forEach begin="1" end="${endP}" var="i">
+                <a href="subject-list?index=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+            </c:forEach>
+            <a href="subject-list?index=${currentPage+1}">&raquo;</a>
+        </div>-->
+
+
+            <!--Paging-->
+            <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item ${page == 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="subject-list?page=${page-1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <c:forEach begin="1" end="${totalPage}" var="i">
+                        <li class="page-item ${i == page ? 'active' : ''}">
+                            <a class="page-link" href="subject-list?page=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <li class="page-item ${page == totalPage ? 'disabled' : ''}">
+                        <a class="page-link" href="subject-list?page=${page+1}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
             <script type="text/javascript">
                 function doDeletebySubject(id) {
@@ -243,6 +271,8 @@
                 }
             </script>
 
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     </body>
 
 </html>
