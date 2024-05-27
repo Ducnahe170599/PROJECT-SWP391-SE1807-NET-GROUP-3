@@ -33,21 +33,40 @@
                     </select>
                 </div>
 
-
+                
                 <div class="col-md-2">
-                    <input type="text" id="search-content" class="form-control" placeholder="Search">
+
+                    <form action="search" method="post">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input name="txt" type="text" id="search-content" class="form-control" placeholder="Search">
+                            </div>
+                            <div class="col-md-4">                           
+                                    <button type="submit" class="btn btn-primary">Search</button>    
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-2">
 
-                    <button  id="filter-button" class="btn btn-primary">Filter</button>
+                    <button  id="filter-button" class="btn btn-primary">Filter</button> 
+
                 </div>
+                
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+
+                    <a href="insert-question.jsp" class="btn btn-primary">Import Questions</a>
+
+                </div>
+                
             </div>
 
 
-           
-            <a href="Add.jsp" class="btn btn-primary">Import Questions</a>
+
 
             <!-- Bảng danh sách câu hỏi -->
             <table class="table mt-3">
@@ -64,8 +83,14 @@
                         <td>${o.getQuizId()}</td>
 
                         <td>
-                            <a href="#">Update</a>
-                            <a href="delete?qid=${o.getQuestionID()}">Delete</a>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="#" class="btn btn-primary">Update</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="delete?qid=${o.getQuestionID()}" class="btn btn-primary">Delete</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </c:forEach>

@@ -6,22 +6,21 @@
 package controller.admin;
 
 import dal.QuestionDAO;
-import model.QuizQuestion;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.QuizQuestion;
 
 /**
  *
  * @author minh1
  */
-@WebServlet(name="loadQuestion", urlPatterns={"/load"})
-public class ListQuestionServlet extends HttpServlet {
+@WebServlet(name="SearchQuestionServlet", urlPatterns={"/search"})
+public class SearchQuestionServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,7 +32,11 @@ public class ListQuestionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        String txtSearch = request.getParameter("txt");
+        QuestionDAO dao = new QuestionDAO();
+        List<QuizQuestion> list = dao.searchByQuestionDetail(txtSearch);
+        request.setAttribute("listS", list);
+        request.getRequestDispatcher("list-question.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,23 +50,7 @@ public class ListQuestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      //  processRequest(request, response);
-      String indexPage =request.getParameter("index");
-      if(indexPage == null){
-          indexPage="1";
-      }
-      int index = Integer.parseInt(indexPage);
-        QuestionDAO dao = new QuestionDAO();
-       
-       int count = dao.getTotalQuestion();
-        int endPage =   count/10;
-        if(count % 10 != 0){
-            endPage++; 
-        }
-        List<QuizQuestion> list = dao.pagingQuestion(index);
-       request.setAttribute("listS",list );
-        request.setAttribute("endP", endPage);
-        request.getRequestDispatcher("list-question.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -76,7 +63,7 @@ public class ListQuestionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      
+        processRequest(request, response);
     }
 
     /** 

@@ -8,6 +8,7 @@ import model.QuizQuestion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +97,25 @@ public class QuestionDAO {
             }
         } catch (Exception e) {
         }
+        return list;
+    }
+
+    public List<QuizQuestion> searchByQuestionDetail(String txtSearch) {
+        List<QuizQuestion> list = new ArrayList<>();
+        String query = "select * from Questions\n"
+                + "where QuestionDetail like ?";
+        try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new QuizQuestion(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+            }
+
+        } catch (Exception e) {
+        }
+
         return list;
     }
 }
