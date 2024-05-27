@@ -4,19 +4,14 @@
  */
 package vn.fpt.edu.Controllers;
 
-import vn.fpt.edu.DAL.DAO;
-import vn.fpt.edu.Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.*;
-import java.sql.*;
-import java.sql.Date;
-
+import vn.fpt.edu.DAL.DAO;
+import vn.fpt.edu.Models.User;
 
 /**
  *
@@ -38,15 +33,32 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String fullname = request.getParameter("fullname");
+            String username = request.getParameter("username");
+            String dob = request.getParameter("dob");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String confirmPass = request.getParameter("confirmPass");
+            String phone = request.getParameter("phone");
+
+            long millis = System.currentTimeMillis();
+            java.sql.Date createAt = new java.sql.Date(millis);
+
+            if (!password.equals(confirmPass)) {
+                response.sendRedirect("Views/login.jsp");
+            } else {
+                DAO d = DAO.INS;
+                User u = d.checkAccountExits(username);
+                if (u == null) {
+                    //dc signup
+                    d.CreateAcc(fullname, username, dob, email, password, phone, createAt);
+                    request.getRequestDispatcher("Views/status.jsp").forward(request, response);
+                    request.setAttribute("status", d.getStatus());
+                    //response.sendRedirect("Views/status.jsp");
+                } else {
+                    response.sendRedirect("Views/login.jsp");
+                }
+            }
         }
     }
 
@@ -62,7 +74,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Views/login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -76,49 +88,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String fullname = request.getParameter("fullname");
-        String username = request.getParameter("username");
-        String dob = request.getParameter("dob");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String confirmPass = request.getParameter("confirmPass");
-        String phone = request.getParameter("phone");
-        
-        try {
-            Date date = Date.valueOf(dob);
-            if (isValidInput(email, password, confirmPass)) {
-            createUserAccount(fullname, username, date, email, password, confirmPass);
-            response.sendRedirect("Views/status.jsp");
-        } else {
-            
-            request.getRequestDispatcher("Views/login.jsp").forward(request, response);
-        }
-        } catch (Exception e) {
-        }
-
-        // Validate the input and create a new user account
-        
-    }
-
-    private boolean isValidInput(String username, String password, String confirmPass) {
-        List<User> us;
-        DAO.INS.LoadAll();
-        us = DAO.INS.getUser();
-        for(User u : us){
-            if(u.getEmail().equals(username)){
-                return false;
-            }
-        }
-        if(!password.equals(confirmPass)){
-            return false;
-        }
-        return true;
-    }
-
-    private void createUserAccount(String fullName, String userName, java.sql.Date dob, String email, String password, 
-                String phone) {
-        DAO.INS.CreateAcc(fullName, userName, dob, email, password, phone, dob);
+        processRequest(request, response);
     }
 
     /**
@@ -132,4 +102,3 @@ public class RegisterServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-

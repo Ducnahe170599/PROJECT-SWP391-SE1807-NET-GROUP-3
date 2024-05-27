@@ -9,7 +9,6 @@ import vn.fpt.edu.Models.UserRole;
 import java.util.*;
 import java.sql.*;
 
-
 /**
  *
  * @author ASUS
@@ -23,13 +22,14 @@ public class DAO {
     public static DAO INS = new DAO(); // INSTALL
 
     private DAO() {
-        if(INS == null)
+        if (INS == null)
         try {
             con = new DBContext().connection;
         } catch (Exception e) {
             status = "Error at connection" + e.getMessage();
+        } else {
+            INS = this;
         }
-        else INS = this;
     }
 
     public void LoadAll() {
@@ -72,7 +72,7 @@ public class DAO {
 
     public String getRoleName(int id) {
         for (UserRole role : usRole) {
-            if (role.getRoleId()==id) {
+            if (role.getRoleId() == id) {
                 return role.getRoleName();
             }
         }
@@ -102,34 +102,34 @@ public class DAO {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    public void CreateAcc( String fullName, String userName, java.sql.Date dob, String email, String password, 
-                String phone, java.sql.Date createAt) {
-        String sql = "Insert into Users values(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    public void CreateAcc(String fullName, String userName, String dob, String email, String password,
+            String phone, java.sql.Date createAt) {
+        String sql = "Insert into Users values(0,?,?,?,?,?,?,0,0,0,0,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setString(2, fullName);
             ps.setString(3, userName);
-            ps.setDate(4, dob);
+            ps.setString(4, dob);
             ps.setString(5, email);
             ps.setString(6, password);
             ps.setString(7, phone);
-            
+
             ps.setDate(12, createAt);
-            ps.execute();
+            ps.executeUpdate();
 
         } catch (Exception e) {
-            status = "Error at inssert student" + e.getMessage();
+            status = "Error at inssert acc" + e.getMessage();
         }
     }
 
-    public void Insert( String fullName, String userName, java.sql.Date dob, String email, String password, 
-                String phone, String address, boolean gender, int roleId, String avatar, java.sql.Date createAt) {
+    public void Insert(String fullName, String userName, java.sql.Date dob, String email, String password,
+            String phone, String address, boolean gender, int roleId, String avatar, java.sql.Date createAt) {
         String sql = "Insert into Users values(?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setString(2, fullName);
             ps.setString(3, userName);
             ps.setDate(4, dob);
@@ -192,6 +192,53 @@ public class DAO {
             status = "Error at delete student" + e.getMessage();
         }
 
+    }
+
+    public User login(String user, String pass) {
+        String sql = "select * from Users \n"
+                + "where UserName = ?\n"
+                + "or Email = ?\n"
+                + "and Password = ?";
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setString(1, user);
+            ps.setString(2, user);
+            ps.setString(3, pass);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {                
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getDate(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                        rs.getString(8), rs.getBoolean(9), rs.getInt(10), rs.getString(11), rs.getDate(12));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    
+    
+    public User checkAccountExits(String user) {
+        String sql = "select * from Users \n"
+                + "where UserName = ?\n";
+                
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setString(1, user);
+            
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {                
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+                        rs.getDate(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                        rs.getString(8), rs.getBoolean(9), rs.getInt(10), rs.getString(11), rs.getDate(12));
+            }
+        } catch (Exception e) {
+        }
+        return null;
     }
 
 //    public void Delete(String id) {

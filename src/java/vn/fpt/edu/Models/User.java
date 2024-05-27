@@ -26,6 +26,8 @@ public class User {
 
     public User() {
     }
+    
+    
 
     public User(int userId, String fullName, String userName, Date dob, String email, String password, 
                 String phone, String address, boolean gender, int roleId, String avatar, Date createAt) {

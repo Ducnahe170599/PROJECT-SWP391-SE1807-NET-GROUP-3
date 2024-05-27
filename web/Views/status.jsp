@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Status</h1>
+        <h1>Da signin</h1>
+        <h1>${status}</h1>
         
     </body>
 </html>
