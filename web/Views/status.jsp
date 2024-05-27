@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Da signin</h1>
-        <h1>${status}</h1>
+        <p>${status}</p>
         
     </body>
 </html>

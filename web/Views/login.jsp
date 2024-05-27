@@ -106,6 +106,8 @@
                 <div class="form-content">
                     <header>Sign Up</header>
                     <form action="register" method="post">
+                        
+                        <p class="text-danger alert">${mess}</p>
 
 
                         <div class="field input-field">
@@ -115,6 +117,8 @@
                         <div class="field input-field">
                             <input type="username" placeholder="Username" class="input" name="username">
                         </div>
+                        
+                        
 
                         <div class="field input-field">
                             <input type="date" placeholder="Date of birth" class="input" name="dob">
@@ -134,7 +138,7 @@
                         </div>
 
                         <div class="field input-field">
-                            <input type="phone" placeholder="Phone Number" class="input" name="phone">
+                            <input type="number" placeholder="Phone Number" class="input" name="phone">
                         </div>
 
 

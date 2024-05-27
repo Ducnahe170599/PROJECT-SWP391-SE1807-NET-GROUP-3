@@ -52,8 +52,8 @@ public class RegisterServlet extends HttpServlet {
                 if (u == null) {
                     //dc signup
                     d.CreateAcc(fullname, username, dob, email, password, phone, createAt);
-                    request.getRequestDispatcher("Views/status.jsp").forward(request, response);
-                    request.setAttribute("status", d.getStatus());
+                    request.getRequestDispatcher("Views/login.jsp").forward(request, response);
+                    
                     //response.sendRedirect("Views/status.jsp");
                 } else {
                     response.sendRedirect("Views/login.jsp");

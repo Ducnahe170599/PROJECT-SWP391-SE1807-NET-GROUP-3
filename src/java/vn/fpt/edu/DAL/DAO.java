@@ -105,18 +105,28 @@ public class DAO {
 
     public void CreateAcc(String fullName, String userName, String dob, String email, String password,
             String phone, java.sql.Date createAt) {
-        String sql = "Insert into Users values(0,?,?,?,?,?,?,0,0,0,0,?)";
+        String sql = "INSERT INTO [dbo].[Users]\n" +
+"           ([FullName]\n" +
+"           ,[UserName]\n" +
+"           ,[DateOfBirth]\n" +
+"           ,[Email]\n" +
+"           ,[Password]\n" +
+"           ,[Phone]\n" +
+"           ,[Create_at])\n" +
+"     VALUES\n" +
+"           (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(2, fullName);
-            ps.setString(3, userName);
-            ps.setString(4, dob);
-            ps.setString(5, email);
-            ps.setString(6, password);
-            ps.setString(7, phone);
+            ps.setString(1, fullName);
+            ps.setString(2, userName);
+            ps.setString(3, dob);
+            ps.setString(4, email);
+            ps.setString(5, password);
+            ps.setString(6, phone);
+            
 
-            ps.setDate(12, createAt);
+            ps.setDate(7, createAt);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -259,6 +269,14 @@ class Using {
     public static void main(String[] args) {
         DAO d = DAO.INS;
         d.LoadAll();
+        long millis = System.currentTimeMillis();
+            java.sql.Date createAt = new java.sql.Date(millis);
+        try{
+        d.CreateAcc("Trung", "trung123", "2003-07-11", "trungpt123@gmail.com", "trung123", "1234567890", createAt);
+            System.out.println("Thanh Cong");
+        }catch(Exception e){
+            System.out.println("That bai" + e.getMessage());
+        }
         for (User us : d.getUser()) {
             System.out.println(us);
         }
