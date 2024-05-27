@@ -52,6 +52,14 @@
         <servlet-name>LessonDetailServlet</servlet-name>
         <servlet-class>controller.admin.LessonDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controller.common.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controller.common.RegisterServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SubjectListServlet</servlet-name>
         <url-pattern>/admin/subject-list</url-pattern>
@@ -103,5 +111,13 @@
     <servlet-mapping>
         <servlet-name>LessonDetailServlet</servlet-name>
         <url-pattern>/admin/lesson-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/Register</url-pattern>
     </servlet-mapping>
 </web-app>
