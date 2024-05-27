@@ -57,6 +57,18 @@
         <servlet-class>controller.common.LoginServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>DeleteRegistrationsController</servlet-name>
+        <servlet-class>vn.fpt.edu.Controller.DeleteRegistrationsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRegistritionsController</servlet-name>
+        <servlet-class>vn.fpt.edu.Controller.DeleteRegistritionsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationsController</servlet-name>
+        <servlet-class>vn.fpt.edu.Controller.RegistrationsController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.common.RegisterServlet</servlet-class>
     </servlet>
@@ -119,5 +131,17 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRegistrationsController</servlet-name>
+        <url-pattern>/DeleteRegistration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRegistritionsController</servlet-name>
+        <url-pattern>/DeleteRegistritions</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationsController</servlet-name>
+        <url-pattern>/Registrations</url-pattern>
     </servlet-mapping>
 </web-app>
