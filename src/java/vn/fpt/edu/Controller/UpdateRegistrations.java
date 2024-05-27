@@ -4,22 +4,22 @@
  */
 package vn.fpt.edu.Controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import vn.fpt.edu.DAO.RegistrationsDBContext;
-import vn.fpt.edu.model.RegistrationsAdd;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import vn.fpt.edu.DAO.RegistrationDAO;
+import vn.fpt.edu.model.Registrations;
 
 /**
  *
  * @author nguye
  */
-public class RegistrationsController extends HttpServlet {
+public class UpdateRegistrations extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +38,10 @@ public class RegistrationsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegistrationsController</title>");
+            out.println("<title>Servlet UpdateRegistrations</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegistrationsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateRegistrations at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,10 +56,42 @@ public class RegistrationsController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Lấy thông tin cần cập nhật từ request
+        int registerID = Integer.parseInt(request.getParameter("registerID"));
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        int subjectID = Integer.parseInt(request.getParameter("subjectID"));
+        int packageID = Integer.parseInt(request.getParameter("packageID"));
+        // Chú ý: Trong ứng dụng thực tế, cần kiểm tra dữ liệu đầu vào và xử lý các trường hợp ngoại lệ
+
+        BigDecimal totalCost = new BigDecimal(request.getParameter("totalCost"));
+        int status = Integer.parseInt(request.getParameter("status"));
+
+        // Tạo đối tượng RegistrationDAO để thực hiện cập nhật
+        RegistrationDAO registrationDAO = new RegistrationDAO();
+
+        // Tạo đối tượng Registrations để chứa thông tin cần cập nhật
+        Registrations ReUp = new Registrations();
+        ReUp.setRegisterID(registerID);
+        ReUp.setUserID(userID);
+        ReUp.setSubjectID(subjectID);
+        ReUp.setPackageID(packageID);
+        ReUp.setTotalCost(totalCost);
+        ReUp.setStatus(status);
+
+        // Thực hiện cập nhật
+        boolean isUpdated = registrationDAO.updateRegistration(ReUp);
+
+        // Chuyển hướng đến trang kết quả tương ứng
+        if (isUpdated) {
+            response.sendRedirect("UpdateSuccess.jsp");
+        } else {
+            response.sendRedirect("UpdateFail.jsp");
+        }
     }
 
     /**
@@ -73,41 +105,17 @@ public class RegistrationsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        RegistrationsDBContext registrationDB = new RegistrationsDBContext();
-        List<RegistrationsAdd> registrations = registrationDB.getAllRegistrations();
-
-        StringBuilder json = new StringBuilder("[");
-        for (int i = 0; i < registrations.size(); i++) {
-            RegistrationsAdd registration = registrations.get(i);
-            json.append("{")
-                .append("\"RegisterID\":").append(registration.getRegisterID()).append(",")
-                .append("\"UserID\":").append(registration.getUserID()).append(",")
-                .append("\"SubjectID\":").append(registration.getSubjectID()).append(",")
-                .append("\"PackageID\":").append(registration.getPackageID()).append(",")
-                .append("\"total_cost\":").append(registration.getTotal_cost()).append(",")
-                .append("\"status\":").append(registration.getStatus()).append(",")
-                .append("\"valid_from\":\"").append(registration.getValid_from()).append("\",")
-                .append("\"valid_to\":\"").append(registration.getValid_to()).append("\",")
-                .append("\"create_at\":\"").append(registration.getCreate_at()).append("\"")
-                .append("}");
-            if (i < registrations.size() - 1) {
-                json.append(",");
-            }
-        }
-        json.append("]");
-        
-        try (PrintWriter out = response.getWriter()) {
-            out.print(json.toString());
-        }
+        response.sendRedirect("UpdateRegis.jsp");
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-
