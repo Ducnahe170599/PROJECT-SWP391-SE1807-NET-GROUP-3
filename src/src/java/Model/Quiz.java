@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package vn.fpt.edu.model;
+package Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +17,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Category {
-    private int CategoryID;
-    private String Category_Name;
+public class Quiz {
+    private int QuizId;
+    private String QuizContent;
+    private String QuizDescription;
+    private String Image;
+    private int CategoryId;
+    private int Duration;
+    private int RankingId;
+    private int LevelId;
+    private String CreateAt;
 }

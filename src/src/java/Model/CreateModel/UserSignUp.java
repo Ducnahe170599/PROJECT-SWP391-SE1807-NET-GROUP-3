@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package vn.fpt.edu.model;
+package Model.CreateModel;
 
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +12,20 @@ import lombok.Setter;
 
 /**
  *
- * @author Admin
+ * @author Datnt
  */
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Subject {
-    private int SubjectID;
-    private String Subject_Name;
-    private String Description;
-    private String Image;
-    private int Status;
-    private int PackageId;
-    private int CategoryId;
-    private int CreateById; 
-    private String CreateAt;
+public class UserSignUp {
+    public int Id;
+    public String UserName;
+    public String Password;
+    public String FirstName;
+    public String LastName;
+    public String Phone;
+    public String Email;
+    public boolean IsActive;
+    public Date CreateAt;
 }
