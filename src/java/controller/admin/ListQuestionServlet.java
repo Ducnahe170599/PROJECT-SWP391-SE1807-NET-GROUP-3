@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.admin;
 
 import dal.QuestionDAO;
+import model.QuizQuestion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author minh1
  */
-@WebServlet(name="delete", urlPatterns={"/delete"})
-public class delete extends HttpServlet {
+@WebServlet(name="loadQuestion", urlPatterns={"/load"})
+public class ListQuestionServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,18 +33,7 @@ public class delete extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet delete</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet delete at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,11 +47,23 @@ public class delete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       // processRequest(request, response);
-       String id = request.getParameter("qid");
+      //  processRequest(request, response);
+      String indexPage =request.getParameter("index");
+      if(indexPage == null){
+          indexPage="1";
+      }
+      int index = Integer.parseInt(indexPage);
         QuestionDAO dao = new QuestionDAO();
-        dao.deleteQuestion(id);
-        response.sendRedirect("load");
+       
+       int count = dao.getTotalQuestion();
+        int endPage =   count/10;
+        if(count % 10 != 0){
+            endPage++; 
+        }
+        List<QuizQuestion> list = dao.pagingQuestion(index);
+       request.setAttribute("listS",list );
+        request.setAttribute("endP", endPage);
+        request.getRequestDispatcher("Show.jsp").forward(request, response);
     } 
 
     /** 
@@ -73,7 +76,7 @@ public class delete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+      
     }
 
     /** 

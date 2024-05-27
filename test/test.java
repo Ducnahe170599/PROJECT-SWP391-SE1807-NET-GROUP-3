@@ -1,6 +1,6 @@
 
 import dal.QuestionDAO;
-import entity.QuizQuestion;
+import model.QuizQuestion;
 import java.util.List;
 
 /*

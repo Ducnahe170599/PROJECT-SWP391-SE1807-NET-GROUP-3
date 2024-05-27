@@ -25,7 +25,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <fieldset>
 
 
-<legend>ADD</legend>
+<legend>ADD Question</legend>
 
 
 <div class="form-group">

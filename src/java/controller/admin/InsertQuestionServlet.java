@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.admin;
 
 import dal.QuestionDAO;
-import entity.QuizQuestion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author minh1
  */
-@WebServlet(name="loadQuestion", urlPatterns={"/load"})
-public class loadQuestion extends HttpServlet {
+@WebServlet(name="add", urlPatterns={"/add"})
+public class InsertQuestionServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +36,10 @@ public class loadQuestion extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet loadQuestion</title>");  
+            out.println("<title>Servlet add</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet loadQuestion at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet add at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,11 +56,7 @@ public class loadQuestion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      //  processRequest(request, response);
-        QuestionDAO dao = new QuestionDAO();
-        List<QuizQuestion> list = dao.getAllQuestion();
-       request.setAttribute("listS",list );
-        request.getRequestDispatcher("Show.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -75,7 +69,14 @@ public class loadQuestion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      
+       // processRequest(request, response);
+         //processRequest(request, response);
+        String qdetail = request.getParameter("name");
+        String quizid = request.getParameter("dob");
+        QuestionDAO dao = new QuestionDAO();
+        dao.insertQuestion(qdetail, quizid);
+        response.sendRedirect("load");
+        
     }
 
     /** 
