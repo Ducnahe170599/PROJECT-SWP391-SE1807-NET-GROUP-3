@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Model;
+
+package model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,20 +8,21 @@ import lombok.Setter;
 
 /**
  *
- * @author Datnt
+ * @author adnmin
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Quiz {
-    private int QuizId;
-    private String QuizContent;
-    private String QuizDescription;
-    private String Image;
-    private int CategoryId;
-    private int Duration;
-    private int RankingId;
-    private int LevelId;
+    private int QuizID;
+    private String title;
+    private String image;
+    private String description;
+    private int Level;
+    private int CategoryID; 
+    private int SubjectID;
     private String CreateAt;
+    private int createById;
 }
+

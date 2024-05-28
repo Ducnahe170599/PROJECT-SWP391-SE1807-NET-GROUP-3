@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package vn.fpt.edu.controller;
+package controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -13,36 +13,46 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
-import vn.fpt.edu.dao.CategoryDAO;
-import vn.fpt.edu.dao.QuizDAO;
-import vn.fpt.edu.dao.SubjectDAO;
-import vn.fpt.edu.model.Category;
-import vn.fpt.edu.model.Quiz;
-import vn.fpt.edu.model.Subject;
+import model.User;
+import dao.CategoryDAO;
+import dao.QuizDAO;
+import dao.SubjectDAO;
+import model.Category;
+import model.Quiz;
+import model.Subject;
+import view.QuizHistoryVM;
 
 /**
  *
  * @author ADMIN
  */
 @MultipartConfig
-public class QuizManageController extends HttpServlet {
+public class QuizManageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-        String url = "quiz-list.jsp";
-        switch (action) {
-            case "view":
-                viewQuizList(request, response);
-                break;
-            case "add":
-                createQuizPage(request, response);
-                break;
-            case "update":
-                updateQuizView(request, response);
-                break;
+        String url = "Views/quiz-list.jsp";
+        if (session != null && session.getAttribute("USER") != null) {
+            switch (action) {
+                case "view":
+                    viewQuizList(request, response);
+                    break;
+                case "add":
+                    createQuizPage(request, response);
+                    break;
+                case "update":
+                    updateQuizView(request, response);
+                    break;
+                case "history-quiz":
+                    viewQuizHistory(request, response);
+                    break;
+            }
+        } else {
+            url = "login";
+            response.sendRedirect(url);
         }
     }
 
@@ -57,19 +67,24 @@ public class QuizManageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-        String url = "create-quiz.jsp";
-        switch (action) {
-            case "add":
-                addQuiz(request, response);
-                break;
-            case "update":
-                updateQuiz(request, response);
-                break;
-            case "remove":
-                removeQuiz(request, response);
-                break;
+        String url = "Views/create-quiz.jsp";
+        if (session != null && session.getAttribute("USER") != null) {
+            switch (action) {
+                case "add":
+                    addQuiz(request, response);
+                    break;
+                case "update":
+                    updateQuiz(request, response);
+                    break;
+                case "remove":
+                    removeQuiz(request, response);
+                    break;
+            }
+        } else {
+            url = "login";
+            response.sendRedirect(url);
         }
     }
 
@@ -85,7 +100,7 @@ public class QuizManageController extends HttpServlet {
 
     private void viewQuizList(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String url = "quiz-list.jsp";
+            String url = "Views/mange-quiz.jsp";
             QuizDAO quizDAO = new QuizDAO();
             List<Quiz> listQuiz = quizDAO.getListQuiz();
             if (listQuiz != null) {
@@ -99,7 +114,9 @@ public class QuizManageController extends HttpServlet {
 
     private void addQuiz(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String url = "create-quiz.jsp";
+            HttpSession session = request.getSession();
+            String url = "Views/create-quiz.jsp";
+            User user = (User) session.getAttribute("USER");
             String title = request.getParameter("title");
             String description = request.getParameter("desc");
             Part image = request.getPart("image");
@@ -115,16 +132,13 @@ public class QuizManageController extends HttpServlet {
             QuizDAO quizDAO = new QuizDAO();
             quiz.setTitle(title);
             quiz.setDescription(description);
-
             quiz.setLevel(level);
             quiz.setCategoryID(categoryId);
             quiz.setSubjectID(subject);
-
-            // Nhờ bạn login đưa id của người tạo vào đây nhé
-//            quiz.setCreateById(userId);
+            quiz.setCreateById(user.getUserId());
             boolean result = quizDAO.addNewQuiz(quiz);
             if (result) {
-                url = "quiz-list.jsp";
+                url = "Views/mange-quiz.jsp";
                 List<Quiz> listQuiz = quizDAO.getListQuiz();
                 request.setAttribute("QUIZS", listQuiz);
             } else {
@@ -138,7 +152,7 @@ public class QuizManageController extends HttpServlet {
 
     private void createQuizPage(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String url = "create-quiz.jsp";;
+            String url = "Views/create-quiz.jsp";;
             CategoryDAO categoryDAO = new CategoryDAO();
             SubjectDAO subjectDAO = new SubjectDAO();
 
@@ -159,7 +173,7 @@ public class QuizManageController extends HttpServlet {
         try {
             String quizIds = request.getParameter("id");
             int quizId = Integer.parseInt(quizIds);
-            String url = "update-quiz.jsp";;
+            String url = "Views/update-quiz.jsp";;
             CategoryDAO categoryDAO = new CategoryDAO();
             SubjectDAO subjectDAO = new SubjectDAO();
             QuizDAO quizDAO = new QuizDAO();
@@ -179,7 +193,9 @@ public class QuizManageController extends HttpServlet {
 
     private void updateQuiz(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String url = "create-quiz.jsp";
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("USER");
+            String url = "Views/create-quiz.jsp";
             String title = request.getParameter("title");
             String idS = request.getParameter("id");
             String description = request.getParameter("desc");
@@ -190,7 +206,7 @@ public class QuizManageController extends HttpServlet {
 
             int level = Integer.parseInt(levelS);
             int categoryId = Integer.parseInt(categoryIdS);
-            int subject = Integer.parseInt(subjectIdS);     
+            int subject = Integer.parseInt(subjectIdS);
             int id = Integer.parseInt(idS);
 
             Quiz quiz = new Quiz();
@@ -203,16 +219,30 @@ public class QuizManageController extends HttpServlet {
             quiz.setCategoryID(categoryId);
             quiz.setSubjectID(subject);
             quiz.setQuizID(id);
-
-            // Nhờ bạn login đưa id của người tạo vào đây nhé
-//            quiz.setCreateById(userId);
+            quiz.setCreateById(user.getUserId());
             boolean result = quizDAO.updateQuiz(quiz);
             if (result) {
-                url = "quiz-list.jsp";
+                url = "Views/mange-quiz.jsp";
                 List<Quiz> listQuiz = quizDAO.getListQuiz();
                 request.setAttribute("QUIZS", listQuiz);
             } else {
                 request.setAttribute("ERROR", "Create quiz failed");
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void viewQuizHistory(HttpServletRequest request, HttpServletResponse response) {
+          try {
+               HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("USER");
+            String url = "Views/quiz-history.jsp";
+            QuizDAO quizDAO = new QuizDAO();
+            List<QuizHistoryVM> listQuizHistory = quizDAO.GetQuizHistory(user.getUserId());
+            if (listQuizHistory != null) {
+                request.setAttribute("QUIZS", listQuizHistory);
             }
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception e) {

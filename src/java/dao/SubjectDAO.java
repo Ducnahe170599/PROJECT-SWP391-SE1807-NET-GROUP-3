@@ -2,29 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package vn.fpt.edu.dao;
+package dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import vn.fpt.edu.model.Category;
+import model.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import vn.fpt.edu.model.Subject;
+import model.Subject;
 
 /**
  *
  * @author Datnt
  */
-public class SubjectDAO extends DbContext {
+public class SubjectDAO extends DBContext {
     
     private Connection con;
     PreparedStatement ps;
     ResultSet rs;
     public SubjectDAO() {
         try {
-            con = new DbContext().getConnection();
+            con = new DBContext().getConnection();
             System.out.println("Connect success");
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,6 +52,21 @@ public class SubjectDAO extends DbContext {
                 listSubject.add(subjects);
             }
             return listSubject;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+       public String GetById(int Id) {
+        String sql = "SELECT * FROM [Subjects] WHERE SubjectID = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, Id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+               return rs.getString("Subject_Name");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAL;
+package dao;
 
 /**
  *
@@ -21,12 +21,12 @@ public class DBContext {
     public static Connection getConnection() throws ClassNotFoundException   {
         /*Change/update information of your database connection, DO NOT change name of instance variables in this class*/
         String serverName = "localhost";
-        String dbName = "QuizPractice";
+        String dbName = "Quiz_DB";
         String portNumber = "1433";
         String userID = "sa";
         String password = "123456789";
 
-       String url = "jdbc:sqlserver://" + serverName + ":" + portNumber
+        String url = "jdbc:sqlserver://" + serverName + ":" + portNumber
                 + ";databaseName=" + dbName;//+"; integratedSecurity=true";
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         try {
