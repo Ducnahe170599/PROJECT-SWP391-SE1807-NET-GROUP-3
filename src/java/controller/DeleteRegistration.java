@@ -2,24 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package vn.fpt.edu.Controller;
+package controller;
 
-
+import dal.RegistrationDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
-import vn.fpt.edu.DAO.RegistrationDAO;
-import vn.fpt.edu.model.Registrations;
 
 /**
  *
  * @author nguye
  */
-public class UpdateRegistrations extends HttpServlet {
+public class DeleteRegistration extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +35,10 @@ public class UpdateRegistrations extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateRegistrations</title>");
+            out.println("<title>Servlet DeleteRegistration</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateRegistrations at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteRegistration at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,41 +53,22 @@ public class UpdateRegistrations extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static final long serialVersionUID = 1L;
+     private RegistrationDAO registrationDAO = new RegistrationDAO();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Lấy thông tin cần cập nhật từ request
-        int registerID = Integer.parseInt(request.getParameter("registerID"));
-        int userID = Integer.parseInt(request.getParameter("userID"));
-        int subjectID = Integer.parseInt(request.getParameter("subjectID"));
-        int packageID = Integer.parseInt(request.getParameter("packageID"));
-        // Chú ý: Trong ứng dụng thực tế, cần kiểm tra dữ liệu đầu vào và xử lý các trường hợp ngoại lệ
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean isDeleted = registrationDAO.deleteRegistration(id);
 
-        BigDecimal totalCost = new BigDecimal(request.getParameter("totalCost"));
-        int status = Integer.parseInt(request.getParameter("status"));
-
-        // Tạo đối tượng RegistrationDAO để thực hiện cập nhật
-        RegistrationDAO registrationDAO = new RegistrationDAO();
-
-        // Tạo đối tượng Registrations để chứa thông tin cần cập nhật
-        Registrations ReUp = new Registrations();
-        ReUp.setRegisterID(registerID);
-        ReUp.setUserID(userID);
-        ReUp.setSubjectID(subjectID);
-        ReUp.setPackageID(packageID);
-        ReUp.setTotalCost(totalCost);
-        ReUp.setStatus(status);
-
-        // Thực hiện cập nhật
-        boolean isUpdated = registrationDAO.updateRegistration(ReUp);
-
-        // Chuyển hướng đến trang kết quả tương ứng
-        if (isUpdated) {
-            response.sendRedirect("UpdateSuccess.jsp");
-        } else {
-            response.sendRedirect("UpdateFail.jsp");
+            if (isDeleted) {
+                response.sendRedirect("DeleteSuccess.jsp");
+            } else {
+                response.sendRedirect("DeleteFailure.jsp");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("DeleteRegistration.jsp");
         }
     }
 
@@ -105,7 +83,7 @@ public class UpdateRegistrations extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("UpdateRegis.jsp");
+        doGet(request, response);
     }
 
     /**

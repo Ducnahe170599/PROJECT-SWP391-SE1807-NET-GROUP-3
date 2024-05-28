@@ -1,21 +1,24 @@
-package vn.fpt.edu.Controller;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller;
 
-
+import dal.RegistrationDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import vn.fpt.edu.DAO.RegistrationDAO;
-import vn.fpt.edu.model.Registrations;
-
+import model.Registrations;
 
 /**
  *
- * @author Admin
+ * @author nguye
  */
-public class Registration extends HttpServlet {
+public class FilterRegistration extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,13 +43,16 @@ public class Registration extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private RegistrationDAO registrationDAO = new RegistrationDAO();
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        RegistrationDAO rdao = new RegistrationDAO();
-        List<Registrations> listr = rdao.getAllRegistrations();
-        request.setAttribute("listr", listr);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String property = request.getParameter("property");
+        int value = Integer.parseInt(request.getParameter("value"));
+
+        List<Registrations> filter = registrationDAO.filterRegistration(property, value);
+
+        request.setAttribute("listr", filter);
         request.getRequestDispatcher("registrations.jsp").forward(request, response);
     }
 
@@ -61,7 +67,7 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

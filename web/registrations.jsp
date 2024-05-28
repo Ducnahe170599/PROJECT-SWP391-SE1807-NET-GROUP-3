@@ -17,6 +17,17 @@
         <form action="UpdateRegis" method="post">
             <button type="submit">Update Registrations</button>
         </form>
+        <form action="Filter" method="post">
+        Filter by:
+        <select name="property">
+            <option value="userID">User ID</option>
+            <option value="subjectID">Subject ID</option>
+            <option value="packageID">Package ID</option>
+            <option value="status">Status</option>
+        </select>
+        <input type="text" name="value" required>
+        <button type="submit">Filter</button>
+    </form>
         <table border="1">  
             <tr>
                 <th>RegisterID</th>

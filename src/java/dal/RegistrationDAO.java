@@ -1,15 +1,14 @@
-package vn.fpt.edu.DAO;
+package dal;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import vn.fpt.edu.dal.DBContext;
 
-import vn.fpt.edu.model.Registrations;
+import model.Registrations;
 
 /**
  *
@@ -77,24 +76,52 @@ public class RegistrationDAO extends DBContext {
         return false;
     }
 
-   public boolean updateRegistration(Registrations registration) {
-    try {
-        String sql = "UPDATE Registrations SET UserID = ?, SubjectID = ?, PackageID = ?, total_cost = ?, status = ? WHERE RegisterID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, registration.getUserID());
-        statement.setInt(2, registration.getSubjectID());
-        statement.setInt(3, registration.getPackageID());
-        statement.setBigDecimal(4, registration.getTotalCost());
-        statement.setInt(5, registration.getStatus());
-        statement.setInt(6, registration.getRegisterID());
+    public boolean updateRegistration(Registrations registration) {
+        try {
+            String sql = "UPDATE Registrations SET UserID = ?, SubjectID = ?, PackageID = ?, total_cost = ?, status = ? WHERE RegisterID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, registration.getUserID());
+            statement.setInt(2, registration.getSubjectID());
+            statement.setInt(3, registration.getPackageID());
+            statement.setBigDecimal(4, registration.getTotalCost());
+            statement.setInt(5, registration.getStatus());
+            statement.setInt(6, registration.getRegisterID());
 
-        int rowsUpdated = statement.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
+       
+
+    public List<Registrations> filterRegistration(String property, int value) {
+        List<Registrations> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Registrations WHERE " + property + " = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, value);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Registrations registration = new Registrations(
+                        resultSet.getInt("RegisterID"),
+                        resultSet.getInt("UserID"),
+                        resultSet.getInt("SubjectID"),
+                        resultSet.getInt("PackageID"),
+                        resultSet.getBigDecimal("total_cost"),
+                        resultSet.getInt("status"),
+                        resultSet.getDate("valid_from"),
+                        resultSet.getDate("valid_to"),
+                        resultSet.getTimestamp("created_at")
+                );
+                list.add(registration);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
 //        RegistrationDAO registrationsDBContext = new RegistrationDAO();
@@ -185,5 +212,22 @@ public class RegistrationDAO extends DBContext {
 //    for (Registrations registration : registrationsAfterUpdate) {
 //        System.out.println(registration);
 //    }
+     RegistrationDAO registrationDAO = new RegistrationDAO();
+
+    // Test lấy tất cả các đăng ký
+    List<Registrations> allRegistrations = registrationDAO.getAllRegistrations();
+    System.out.println("All Registrations:");
+    for (Registrations registration : allRegistrations) {
+        System.out.println(registration);
+    }
+
+    // Test lọc đăng ký theo thuộc tính
+    String propertyToFilter = "UserID"; // Đổi thành thuộc tính bạn muốn lọc (UserID, SubjectID, PackageID, hoặc Status)
+    int valueToFilter = 1; // Đổi thành giá trị bạn muốn lọc
+    List<Registrations> filteredRegistrations = registrationDAO.filterRegistration(propertyToFilter, valueToFilter);
+    System.out.println("\nFiltered Registrations (by " + propertyToFilter + " = " + valueToFilter + "):");
+    for (Registrations registration : filteredRegistrations) {
+        System.out.println(registration);
+    }
     }
 }

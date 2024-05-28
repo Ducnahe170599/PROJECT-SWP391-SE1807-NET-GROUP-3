@@ -1,23 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package vn.fpt.edu.Controller;
+package controller;
 
-
+import dal.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.fpt.edu.DAO.RegistrationDAO;
+import java.util.List;
+import model.Registrations;
 
 /**
  *
- * @author nguye
+ * @author Admin
  */
-public class DeleteRegistration extends HttpServlet {
+public class RegistrationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +27,7 @@ public class DeleteRegistration extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteRegistration</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteRegistration at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        doGet(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,23 +39,14 @@ public class DeleteRegistration extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private RegistrationDAO registrationDAO = new RegistrationDAO();
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            boolean Del = registrationDAO.deleteRegistration(id);
-
-            if (Del) {
-                response.sendRedirect("DeleteSuccess.jsp");
-            } else {
-                response.sendRedirect("DeleteFailure.jsp");
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            response.sendRedirect("DeleteRegistration.jsp");
-        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //processRequest(request, response);
+        RegistrationDAO rdao = new RegistrationDAO();
+        List<Registrations> listr = rdao.getAllRegistrations();
+        request.setAttribute("listr", listr);
+        request.getRequestDispatcher("registrations.jsp").forward(request, response);
     }
 
     /**
@@ -84,7 +60,7 @@ public class DeleteRegistration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

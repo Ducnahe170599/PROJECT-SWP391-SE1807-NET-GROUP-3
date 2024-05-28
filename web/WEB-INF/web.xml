@@ -2,19 +2,23 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
-        <servlet-class>vn.fpt.edu.Controller.RegistrationServlet</servlet-class>
+        <servlet-class>controller.RegistrationServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddRegistration</servlet-name>
-        <servlet-class>vn.fpt.edu.Controller.AddRegistration</servlet-class>
+        <servlet-class>controller.AddRegistration</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteRegistration</servlet-name>
-        <servlet-class>vn.fpt.edu.Controller.DeleteRegistration</servlet-class>
+        <servlet-class>controller.DeleteRegistration</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateRegistrations</servlet-name>
-        <servlet-class>vn.fpt.edu.Controller.UpdateRegistrations</servlet-class>
+        <servlet-class>controller.UpdateRegistrations</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterRegistration</servlet-name>
+        <servlet-class>controller.FilterRegistration</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
@@ -31,5 +35,9 @@
     <servlet-mapping>
         <servlet-name>UpdateRegistrations</servlet-name>
         <url-pattern>/UpdateRegis</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterRegistration</servlet-name>
+        <url-pattern>/Filter</url-pattern>
     </servlet-mapping>
 </web-app>

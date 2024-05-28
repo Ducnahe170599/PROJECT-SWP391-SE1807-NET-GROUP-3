@@ -1,4 +1,4 @@
-package vn.fpt.edu.model;
+package model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
